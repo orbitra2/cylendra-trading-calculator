@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معاينة - حاسبة التداول الذكية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 3rem;
+            text-align: center;
+            color: white;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+        .content {
+            padding: 3rem;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .feature-card {
+            background: #f9fafb;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        .feature-card p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+        .cta-section {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 12px;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin: 1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        .instructions {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            border: 2px solid #e5e7eb;
+        }
+        .instructions h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        .instructions ol {
+            padding-right: 1.5rem;
+        }
+        .instructions li {
+            margin: 1rem 0;
+            line-height: 1.8;
+            color: #374151;
+        }
+        .instructions code {
+            background: #f3f4f6;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #667eea;
+        }
+        .screenshot {
+            margin: 2rem 0;
+            text-align: center;
+        }
+        .screenshot img {
+            max-width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+        .tech-item {
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+            font-weight: 600;
+            color: #374151;
+        }
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background: #f9fafb;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-chart-line"></i> حاسبة التداول الذكية</h1>
+            <p>أداة احترافية متطورة لحساب الأرباح المستقبلية</p>
+        </div>
+
+        <div class="content">
+            <h2 style="text-align: center; color: #667eea; margin-bottom: 2rem;">
+                ✨ المميزات الرئيسية
+            </h2>
+
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>حسابات دقيقة</h3>
+                    <p>حساب الأرباح مع إعادة الاستثمار والمصاريف الشهرية</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>رسوم بيانية</h3>
+                    <p>3 رسوم بيانية تفاعلية لتتبع تطور الأرباح</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>إحصائيات شاملة</h3>
+                    <p>8 بطاقات إحصائية ملونة للنتائج الرئيسية</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📥</div>
+                    <h3>تصدير البيانات</h3>
+                    <p>تصدير النتائج كـ CSV أو JSON</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>تصميم عصري</h3>
+                    <p>واجهة عربية احترافية ومتجاوبة</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>أداء عالي</h3>
+                    <p>سرعة فائقة في المعالجة والاستجابة</p>
+                </div>
+            </div>
+
+            <div class="tech-stack">
+                <div class="tech-item"><i class="fab fa-node-js"></i> Node.js</div>
+                <div class="tech-item"><i class="fas fa-server"></i> Express</div>
+                <div class="tech-item"><i class="fas fa-file-code"></i> EJS</div>
+                <div class="tech-item"><i class="fas fa-chart-bar"></i> Chart.js</div>
+                <div class="tech-item"><i class="fab fa-css3-alt"></i> CSS3</div>
+                <div class="tech-item"><i class="fab fa-js"></i> JavaScript</div>
+            </div>
+
+            <div class="cta-section">
+                <h2 style="color: #667eea; margin-bottom: 1rem;">جاهز للبدء؟</h2>
+                <p style="color: #6b7280; margin-bottom: 2rem;">
+                    اتبع التعليمات أدناه لتشغيل التطبيق على جهازك
+                </p>
+            </div>
+
+            <div class="instructions">
+                <h3><i class="fas fa-rocket"></i> خطوات التشغيل</h3>
+                <ol>
+                    <li>
+                        <strong>تثبيت Node.js:</strong><br>
+                        إذا لم يكن مثبتاً لديك، حمّله من 
+                        <a href="https://nodejs.org/" target="_blank" style="color: #667eea;">nodejs.org</a>
+                    </li>
+                    <li>
+                        <strong>فتح Terminal/CMD:</strong><br>
+                        افتح Terminal أو Command Prompt في مجلد المشروع<br>
+                        <code>cd trading-calculator-nodejs</code>
+                    </li>
+                    <li>
+                        <strong>تثبيت الحزم:</strong><br>
+                        <code>npm install</code>
+                    </li>
+                    <li>
+                        <strong>تشغيل التطبيق:</strong><br>
+                        <code>npm start</code>
+                    </li>
+                    <li>
+                        <strong>فتح المتصفح:</strong><br>
+                        افتح <code>http://localhost:3000</code>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="instructions" style="margin-top: 2rem;">
+                <h3><i class="fas fa-tools"></i> التحسينات المضافة</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin: 1rem 0;">
+                        ✅ <strong>أيام العمل:</strong> اختيار 5، 6، أو 7 أيام في الأسبوع
+                    </li>
+                    <li style="margin: 1rem 0;">
+                        ✅ <strong>المصاريف الشهرية:</strong> حساب المصاريف الثابتة
+                    </li>
+                    <li style="margin: 1rem 0;">
+                        ✅ <strong>3 رسوم بيانية:</strong> خطي، دائري، وشريطي
+                    </li>
+                    <li style="margin: 1rem 0;">
+                        ✅ <strong>8 بطاقات إحصائية:</strong> تفاصيل شاملة عن الأرباح
+                    </li>
+                    <li style="margin: 1rem 0;">
+                        ✅ <strong>تصدير CSV/JSON:</strong> تصدير البيانات بسهولة
+                    </li>
+                    <li style="margin: 1rem 0;">
+                        ✅ <strong>تصميم محسّن:</strong> أكثر عصرية واحترافية
+                    </li>
+                    <li style="margin: 1rem 0;">
+                        ✅ <strong>API متكامل:</strong> للاستخدام البرمجي
+                    </li>
+                    <li style="margin: 1rem 0;">
+                        ✅ <strong>كود منظم:</strong> سهل الصيانة والتطوير
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><i class="fas fa-exclamation-triangle"></i> <strong>تنبيه:</strong> هذه الحسابات تقديرية ولا تضمن تحقيق أرباح فعلية</p>
+            <p style="margin-top: 1rem;">صُنع بـ ❤️ لمجتمع المتداولين العرب</p>
+            <p style="margin-top: 0.5rem;">&copy; 2025 حاسبة التداول الذكية</p>
+        </div>
+    </div>
+</body>
+</html>

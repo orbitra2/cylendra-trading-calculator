@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة التداول الذكية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 20px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 968px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.05em;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn-calculate {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-calculate:active {
+            transform: translateY(0);
+        }
+
+        .results-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+            animation: scaleIn 0.5s ease;
+        }
+
+        .stat-card h3 {
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .stat-card .value {
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        .full-width-card {
+            grid-column: 1 / -1;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-top: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .emoji {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            color: #667eea;
+            margin-left: 5px;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            right: 50%;
+            margin-right: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.85em;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .input-icon {
+            position: relative;
+        }
+
+        .input-icon::before {
+            content: '$';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-weight: 600;
+        }
+
+        .input-with-icon {
+            padding-left: 35px;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 حاسبة التداول الذكية</h1>
+            <p>احسب أرباحك المستقبلية بدقة واحترافية</p>
+        </div>
+
+        <div class="main-content">
+            <!-- نموذج الإدخال -->
+            <div class="card">
+                <h2>🎯 بيانات الحساب</h2>
+                <form id="calculatorForm">
+                    <div class="form-group">
+                        <label>
+                            <span class="tooltip">ℹ️
+                                <span class="tooltiptext">المبلغ الذي ستبدأ به التداول</span>
+                            </span>
+                            رأس المال الأساسي ($)
+                        </label>
+                        <div class="input-icon">
+                            <input type="number" id="principal" step="0.01" value="1000" required class="input-with-icon">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <span class="tooltip">ℹ️
+                                <span class="tooltiptext">الربح المتوقع من كل صفقة</span>
+                            </span>
+                            الربح لكل صفقة ($)
+                        </label>
+                        <div class="input-icon">
+                            <input type="number" id="profit_trade" step="0.01" value="10" required class="input-with-icon">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <span class="tooltip">ℹ️
+                                <span class="tooltiptext">عدد الصفقات التي تنفذها يومياً</span>
+                            </span>
+                            عدد الصفقات اليومية
+                        </label>
+                        <input type="number" id="trades_day" value="5" min="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <span class="tooltip">ℹ️
+                                <span class="tooltiptext">النسبة المئوية من الأرباح التي ستعيد استثمارها</span>
+                            </span>
+                            نسبة إعادة الاستثمار (%)
+                        </label>
+                        <input type="number" id="reinvest" step="0.01" value="50" min="0" max="100" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <span class="tooltip">ℹ️
+                                <span class="tooltiptext">المدة الزمنية للحساب</span>
+                            </span>
+                            عدد الأيام
+                        </label>
+                        <input type="number" id="days" value="365" min="1" required>
+                    </div>
+
+                    <button type="submit" class="btn-calculate">
+                        🚀 احسب الأرباح
+                    </button>
+                </form>
+            </div>
+
+            <!-- ملخص النتائج -->
+            <div class="card hidden" id="summaryCard">
+                <h2>💰 ملخص النتائج</h2>
+                <div class="results-summary" id="resultsSummary"></div>
+            </div>
+        </div>
+
+        <!-- الجدول والرسم البياني -->
+        <div class="card full-width-card hidden" id="detailsCard">
+            <h2>📈 التفاصيل الشهرية</h2>
+            <div class="chart-container">
+                <canvas id="profitChart"></canvas>
+            </div>
+            <div id="monthlyTable"></div>
+        </div>
+    </div>
+
+    <script>
+        let profitChart = null;
+
+        document.getElementById('calculatorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // جمع البيانات من النموذج
+            const principal = parseFloat(document.getElementById('principal').value);
+            const profit_trade = parseFloat(document.getElementById('profit_trade').value);
+            const trades_day = parseInt(document.getElementById('trades_day').value);
+            const reinvest_percent = parseFloat(document.getElementById('reinvest').value) / 100;
+            const days = parseInt(document.getElementById('days').value);
+            
+            // إجراء الحسابات
+            let balance = principal;
+            let total_earnings = 0;
+            let total_cash_out = 0;
+            let monthly_data = [];
+            
+            let month_earnings = 0;
+            let month_reinvest = 0;
+            let month_cashout = 0;
+            let month = 1;
+            
+            for (let d = 1; d <= days; d++) {
+                const daily_profit = profit_trade * trades_day;
+                const reinvest = daily_profit * reinvest_percent;
+                const cashout = daily_profit - reinvest;
+                
+                balance += reinvest;
+                total_earnings += daily_profit;
+                total_cash_out += cashout;
+                
+                month_earnings += daily_profit;
+                month_reinvest += reinvest;
+                month_cashout += cashout;
+                
+                // كل 30 يوم أو آخر يوم
+                if (d % 30 === 0 || d === days) {
+                    monthly_data.push({
+                        month: `الشهر ${month}`,
+                        earnings: Math.round(month_earnings * 100) / 100,
+                        reinvest: Math.round(month_reinvest * 100) / 100,
+                        cash_out: Math.round(month_cashout * 100) / 100,
+                        balance: Math.round(balance * 100) / 100
+                    });
+                    month++;
+                    month_earnings = 0;
+                    month_reinvest = 0;
+                    month_cashout = 0;
+                }
+            }
+            
+            const roi = Math.round(((balance - principal) / principal) * 10000) / 100;
+            
+            const result = {
+                final_balance: Math.round(balance * 100) / 100,
+                total_earnings: Math.round(total_earnings * 100) / 100,
+                total_cashout: Math.round(total_cash_out * 100) / 100,
+                roi: roi,
+                monthly_data: monthly_data
+            };
+            
+            displayResults(result);
+        });
+
+        function displayResults(data) {
+            // عرض الملخص
+            document.getElementById('summaryCard').classList.remove('hidden');
+            document.getElementById('detailsCard').classList.remove('hidden');
+
+            const summaryHTML = `
+                <div class="stat-card">
+                    <div class="emoji">💵</div>
+                    <h3>الرصيد النهائي</h3>
+                    <div class="value">$${data.final_balance.toLocaleString()}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="emoji">📊</div>
+                    <h3>إجمالي الأرباح</h3>
+                    <div class="value">$${data.total_earnings.toLocaleString()}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="emoji">💸</div>
+                    <h3>إجمالي السحوبات</h3>
+                    <div class="value">$${data.total_cashout.toLocaleString()}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="emoji">📈</div>
+                    <h3>نسبة العائد</h3>
+                    <div class="value">${data.roi}%</div>
+                </div>
+            `;
+            document.getElementById('resultsSummary').innerHTML = summaryHTML;
+
+            // عرض الجدول
+            displayTable(data.monthly_data);
+
+            // عرض الرسم البياني
+            displayChart(data.monthly_data);
+            
+            // التمرير إلى النتائج
+            document.getElementById('summaryCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function displayTable(monthlyData) {
+            let tableHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>الشهر</th>
+                            <th>الأرباح ($)</th>
+                            <th>إعادة الاستثمار ($)</th>
+                            <th>السحب النقدي ($)</th>
+                            <th>الرصيد ($)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            monthlyData.forEach(row => {
+                tableHTML += `
+                    <tr>
+                        <td><strong>${row.month}</strong></td>
+                        <td>${row.earnings.toLocaleString()}</td>
+                        <td>${row.reinvest.toLocaleString()}</td>
+                        <td>${row.cash_out.toLocaleString()}</td>
+                        <td><strong>${row.balance.toLocaleString()}</strong></td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `
+                    </tbody>
+                </table>
+            `;
+
+            document.getElementById('monthlyTable').innerHTML = tableHTML;
+        }
+
+        function displayChart(monthlyData) {
+            const ctx = document.getElementById('profitChart').getContext('2d');
+            
+            if (profitChart) {
+                profitChart.destroy();
+            }
+
+            const labels = monthlyData.map(d => d.month);
+            const balanceData = monthlyData.map(d => d.balance);
+            const earningsData = monthlyData.map(d => d.earnings);
+
+            profitChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'الرصيد',
+                            data: balanceData,
+                            borderColor: '#667eea',
+                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            borderWidth: 3
+                        },
+                        {
+                            label: 'الأرباح الشهرية',
+                            data: earningsData,
+                            borderColor: '#764ba2',
+                            backgroundColor: 'rgba(118, 75, 162, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            borderWidth: 3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    family: 'Cairo',
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0,0,0,0.8)',
+                            titleFont: {
+                                family: 'Cairo',
+                                size: 14
+                            },
+                            bodyFont: {
+                                family: 'Cairo',
+                                size: 13
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': $' + context.parsed.y.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                },
+                                font: {
+                                    family: 'Cairo'
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: {
+                                    family: 'Cairo'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
