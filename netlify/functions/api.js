@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const serverless = require('serverless-http');
+
 require('dotenv').config();
 
 const app = express();
@@ -216,4 +218,5 @@ app.use((req, res) => {
 });
 
 module.exports = app;
+module.exports.handler = serverless(app);
 
