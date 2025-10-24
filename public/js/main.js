@@ -293,8 +293,48 @@ function displayResults(data) {
         `).join('');
     }
 
+    // عرض نسبة الخطورة
+    displayRiskRatio(stats);
+
     // تحديث الرسوم البيانية
     createCharts(data);
+}
+
+// دالة عرض نسبة الخطورة
+function displayRiskRatio(stats) {
+    const riskRatioValue = document.getElementById('riskRatioValue');
+    const riskLevelText = document.getElementById('riskLevelText');
+    const riskDescription = document.getElementById('riskDescription');
+    const riskCircle = document.getElementById('riskCircle');
+
+    riskRatioValue.textContent = stats.riskRatio;
+    riskLevelText.textContent = stats.riskLevel;
+
+    // تحديث لون البطاقة حسب مستوى الخطورة
+    riskCircle.className = 'risk-circle';
+
+    let descriptionText = '';
+    let colorClass = '';
+
+    if (stats.riskRatio <= 5) {
+        colorClass = 'risk-very-low';
+        descriptionText = '✅ خطورة منخفضة جداً - استراتيجية آمنة جداً مع رأس مال كبير وأرباح محدودة';
+    } else if (stats.riskRatio <= 10) {
+        colorClass = 'risk-low';
+        descriptionText = '✅ خطورة منخفضة - استراتيجية آمنة وموثوقة للمبتدئين';
+    } else if (stats.riskRatio <= 20) {
+        colorClass = 'risk-medium';
+        descriptionText = '⚠️ خطورة متوسطة - توازن معقول بين النمو والأمان';
+    } else if (stats.riskRatio <= 50) {
+        colorClass = 'risk-high';
+        descriptionText = '⚠️ خطورة عالية - استراتيجية عدوانية تتطلب خبرة';
+    } else {
+        colorClass = 'risk-very-high';
+        descriptionText = '❌ خطورة عالية جداً - استراتيجية محفوفة بالمخاطر جداً';
+    }
+
+    riskCircle.classList.add(colorClass);
+    riskDescription.textContent = descriptionText;
 }
 
 // دالة إنشاء الرسوم البيانية

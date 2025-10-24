@@ -110,11 +110,25 @@ function calculateProfits(data) {
     
     const roi = round(((balance - principal) / principal) * 100, 2);
     const netProfit = round(balance - principal, 2);
-    const avgMonthlyProfit = monthlyData.length > 0 ? 
+    const avgMonthlyProfit = monthlyData.length > 0 ?
         round(monthlyData.reduce((sum, m) => sum + m.earnings, 0) / monthlyData.length, 2) : 0;
-    const avgMonthlyGrowth = monthlyData.length > 1 ? 
+    const avgMonthlyGrowth = monthlyData.length > 1 ?
         round(((monthlyData[monthlyData.length - 1].balance / monthlyData[0].balance - 1) / monthlyData.length) * 100, 2) : 0;
-    
+
+    // حساب نسبة الخطورة (Risk Ratio)
+    // المعادلة: (الربح لكل صفقة / رأس المال) × عدد الصفقات اليومية × 100
+    const riskRatio = round(
+        (parseFloat(profitPerTrade) / parseFloat(principal)) * parseInt(tradesPerDay) * 100,
+        2
+    );
+
+    // تصنيف مستوى الخطورة
+    let riskLevel = 'منخفضة جداً';
+    if (riskRatio > 50) riskLevel = 'عالية جداً';
+    else if (riskRatio > 20) riskLevel = 'عالية';
+    else if (riskRatio > 10) riskLevel = 'متوسطة';
+    else if (riskRatio > 5) riskLevel = 'منخفضة';
+
     return {
         summary: {
             initialBalance: round(principal, 2),
@@ -128,7 +142,9 @@ function calculateProfits(data) {
             avgMonthlyProfit: avgMonthlyProfit,
             avgMonthlyGrowth: avgMonthlyGrowth,
             totalDays: days,
-            totalMonths: monthlyData.length
+            totalMonths: monthlyData.length,
+            riskRatio: riskRatio,
+            riskLevel: riskLevel
         },
         monthlyData: monthlyData,
         dailyData: dailyData

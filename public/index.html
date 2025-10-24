@@ -261,6 +261,38 @@
             <!-- البطاقات الإحصائية -->
             <div class="stats-grid" id="statsGrid"></div>
 
+            <!-- بطاقة نسبة الخطورة -->
+            <div class="risk-card-container">
+                <div class="card risk-card" id="riskCard">
+                    <div class="card-header">
+                        <h2>
+                            <i class="fas fa-exclamation-triangle"></i>
+                            تقييم نسبة الخطورة
+                        </h2>
+                    </div>
+                    <div class="card-body risk-card-body">
+                        <div class="risk-content">
+                            <div class="risk-gauge">
+                                <div class="risk-circle" id="riskCircle">
+                                    <div class="risk-value">
+                                        <span id="riskRatioValue">0</span>%
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="risk-info">
+                                <div class="risk-level">
+                                    <h3>مستوى الخطورة:</h3>
+                                    <p id="riskLevelText" class="risk-level-text">منخفضة جداً</p>
+                                </div>
+                                <div class="risk-description">
+                                    <p id="riskDescription"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- الرسوم البيانية -->
             <div class="charts-section">
                 <div class="card chart-card">

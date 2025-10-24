@@ -662,6 +662,124 @@ body {
     }
 }
 
+/* بطاقة نسبة الخطورة */
+.risk-card-container {
+    margin: 2rem 0;
+}
+
+.risk-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 2px solid #e5e7eb;
+}
+
+.risk-card-body {
+    padding: 2rem;
+}
+
+.risk-content {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.risk-gauge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.risk-circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.risk-circle.risk-very-low {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.risk-circle.risk-low {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+}
+
+.risk-circle.risk-medium {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.risk-circle.risk-high {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.risk-circle.risk-very-high {
+    background: linear-gradient(135deg, #7c2d12 0%, #431407 100%);
+    animation: pulse 2s infinite;
+}
+
+.risk-value {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.risk-value span {
+    font-size: 3rem;
+    font-weight: 900;
+}
+
+.risk-info {
+    flex: 1;
+    min-width: 250px;
+}
+
+.risk-level {
+    margin-bottom: 1.5rem;
+}
+
+.risk-level h3 {
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.risk-level-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.risk-description {
+    background: rgba(102, 126, 234, 0.1);
+    padding: 1rem;
+    border-radius: 8px;
+    border-right: 4px solid var(--primary-color);
+}
+
+.risk-description p {
+    color: var(--dark-color);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
+    }
+    50% {
+        box-shadow: 0 10px 40px rgba(239, 68, 68, 0.6);
+    }
+}
+
 /* استجابة الشاشات الصغيرة */
 @media (max-width: 768px) {
     .navbar .container {
@@ -687,5 +805,24 @@ body {
 
     .stat-value {
         font-size: 1.5rem;
+    }
+
+    .risk-content {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .risk-circle {
+        width: 150px;
+        height: 150px;
+        font-size: 1.5rem;
+    }
+
+    .risk-value span {
+        font-size: 2rem;
+    }
+
+    .risk-info {
+        min-width: 100%;
     }
 }
