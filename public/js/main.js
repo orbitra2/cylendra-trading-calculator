@@ -194,6 +194,7 @@ function displayResults(data) {
     const resultsSection = document.getElementById('results');
     const statsGrid = document.getElementById('statsGrid');
     const tableBody = document.getElementById('tableBody');
+    const dailyTableBody = document.getElementById('dailyTableBody');
 
     // عرض قسم النتائج
     resultsSection.style.display = 'block';
@@ -279,6 +280,18 @@ function displayResults(data) {
             <td class="text-success">${row.roi}%</td>
         </tr>
     `).join('');
+
+    // عرض جدول البيانات اليومية
+    if (data.dailyData && data.dailyData.length > 0) {
+        dailyTableBody.innerHTML = data.dailyData.map(row => `
+            <tr>
+                <td><strong>اليوم ${row.day}</strong></td>
+                <td class="text-success">$${row.profit.toLocaleString()}</td>
+                <td class="text-warning">$${row.cashout.toLocaleString()}</td>
+                <td class="text-primary"><strong>$${row.balance.toLocaleString()}</strong></td>
+            </tr>
+        `).join('');
+    }
 
     // تحديث الرسوم البيانية
     createCharts(data);
