@@ -21,6 +21,8 @@ function calculateProfits(data) {
     const {
         principal,
         profitPerTrade,
+        dailyProfitPercentage,
+        profitMode = 'fixed', // 'fixed' أو 'percentage'
         tradesPerDay,
         reinvestPercent,
         days,
@@ -30,15 +32,25 @@ function calculateProfits(data) {
 
     let balance = parseFloat(principal);
     const reinvestRatio = parseFloat(reinvestPercent) / 100;
-    
+
+    // حساب الربح لكل صفقة بناءً على الطريقة المختارة
+    let profitPerTradeValue = parseFloat(profitPerTrade);
+
+    if (profitMode === 'percentage') {
+        // حساب الربح اليومي من النسبة المئوية
+        const dailyProfit = (parseFloat(principal) * parseFloat(dailyProfitPercentage)) / 100;
+        // تقسيم الربح اليومي على عدد الصفقات
+        profitPerTradeValue = dailyProfit / parseInt(tradesPerDay);
+    }
+
     let totalEarnings = 0;
     let totalCashOut = 0;
     let totalReinvested = 0;
     let totalExpenses = 0;
-    
+
     let monthlyData = [];
     let dailyData = [];
-    
+
     let monthEarnings = 0;
     let monthReinvest = 0;
     let monthCashout = 0;
@@ -46,12 +58,12 @@ function calculateProfits(data) {
     let month = 1;
     let dayOfMonth = 0;
     let dayOfWeek = 1;
-    
+
     for (let d = 1; d <= days; d++) {
         let dailyProfit = 0;
-        
+
         if (workDaysPerWeek === 7 || dayOfWeek <= workDaysPerWeek) {
-            dailyProfit = parseFloat(profitPerTrade) * parseInt(tradesPerDay);
+            dailyProfit = profitPerTradeValue * parseInt(tradesPerDay);
         }
         
         const reinvest = dailyProfit * reinvestRatio;

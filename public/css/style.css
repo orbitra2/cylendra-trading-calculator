@@ -702,27 +702,67 @@ body {
     color: white;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
+    position: relative;
+}
+
+.risk-circle::before {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .risk-circle.risk-very-low {
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+}
+
+.risk-circle.risk-very-low::before {
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, transparent 70%);
+    opacity: 1;
 }
 
 .risk-circle.risk-low {
     background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+}
+
+.risk-circle.risk-low::before {
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+    opacity: 1;
 }
 
 .risk-circle.risk-medium {
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+}
+
+.risk-circle.risk-medium::before {
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.2) 0%, transparent 70%);
+    opacity: 1;
 }
 
 .risk-circle.risk-high {
     background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
+}
+
+.risk-circle.risk-high::before {
+    background: radial-gradient(circle, rgba(239, 68, 68, 0.2) 0%, transparent 70%);
+    opacity: 1;
 }
 
 .risk-circle.risk-very-high {
     background: linear-gradient(135deg, #7c2d12 0%, #431407 100%);
-    animation: pulse 2s infinite;
+    box-shadow: 0 10px 30px rgba(124, 45, 18, 0.4);
+    animation: pulse 1.5s infinite;
+}
+
+.risk-circle.risk-very-high::before {
+    background: radial-gradient(circle, rgba(239, 68, 68, 0.3) 0%, transparent 70%);
+    opacity: 1;
 }
 
 .risk-value {
@@ -759,16 +799,30 @@ body {
 }
 
 .risk-description {
-    background: rgba(102, 126, 234, 0.1);
-    padding: 1rem;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.05) 100%);
+    padding: 1.2rem;
     border-radius: 8px;
     border-right: 4px solid var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.risk-description:hover {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.1) 100%);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
 }
 
 .risk-description p {
     color: var(--dark-color);
-    line-height: 1.6;
+    line-height: 1.7;
     font-size: 0.95rem;
+    margin: 0;
+}
+
+.risk-description strong {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    display: block;
+    margin-bottom: 0.5rem;
 }
 
 @keyframes pulse {
@@ -778,6 +832,79 @@ body {
     50% {
         box-shadow: 0 10px 40px rgba(239, 68, 68, 0.6);
     }
+}
+
+/* أزرار اختيار طريقة الربح */
+.profit-mode-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    background: #f3f4f6;
+    padding: 0.5rem;
+    border-radius: 8px;
+}
+
+.profit-mode-btn {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid transparent;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--dark-color);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.profit-mode-btn:hover {
+    background: #f9fafb;
+    border-color: var(--primary-color);
+}
+
+.profit-mode-btn.active {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+/* معلومات حساب الربح */
+.profit-calculation-info {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    border-right: 4px solid var(--primary-color);
+}
+
+.profit-calculation-info p {
+    color: var(--dark-color);
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.profit-calculation-info i {
+    color: var(--primary-color);
+    font-size: 0.85rem;
+}
+
+.calculation-result {
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-top: 0.75rem !important;
+}
+
+.calculation-result strong {
+    color: var(--secondary-color);
+    font-size: 1.1rem;
 }
 
 /* استجابة الشاشات الصغيرة */

@@ -49,6 +49,78 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// معالجة اختيار طريقة حساب الربح
+const profitModeBtns = document.querySelectorAll('.profit-mode-btn');
+const fixedProfitGroup = document.getElementById('fixedProfitGroup');
+const percentageProfitGroup = document.getElementById('percentageProfitGroup');
+const profitPerTradeInput = document.getElementById('profitPerTrade');
+const dailyProfitPercentageInput = document.getElementById('dailyProfitPercentage');
+const principalInput = document.getElementById('principal');
+const tradesPerDayInput = document.getElementById('tradesPerDay');
+const profitCalculationDisplay = document.getElementById('profitCalculationDisplay');
+
+console.log('Profit Mode Buttons:', profitModeBtns.length);
+console.log('Fixed Profit Group:', fixedProfitGroup);
+console.log('Percentage Profit Group:', percentageProfitGroup);
+
+if (profitModeBtns.length > 0) {
+    profitModeBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const mode = this.getAttribute('data-mode');
+            console.log('Profit mode selected:', mode);
+
+            // إزالة التحديد من جميع الأزرار
+            profitModeBtns.forEach(b => b.classList.remove('active'));
+            // تحديد الزر المضغوط
+            this.classList.add('active');
+
+            // إظهار/إخفاء المجموعات
+            if (mode === 'fixed') {
+                if (fixedProfitGroup) fixedProfitGroup.style.display = 'block';
+                if (percentageProfitGroup) percentageProfitGroup.style.display = 'none';
+                if (profitPerTradeInput) profitPerTradeInput.required = true;
+                if (dailyProfitPercentageInput) dailyProfitPercentageInput.required = false;
+            } else {
+                if (fixedProfitGroup) fixedProfitGroup.style.display = 'none';
+                if (percentageProfitGroup) percentageProfitGroup.style.display = 'block';
+                if (profitPerTradeInput) profitPerTradeInput.required = false;
+                if (dailyProfitPercentageInput) dailyProfitPercentageInput.required = true;
+                updateProfitCalculation();
+            }
+        });
+    });
+}
+
+// تحديث حساب الربح عند تغيير القيم
+function updateProfitCalculation() {
+    const principal = parseFloat(principalInput.value) || 0;
+    const percentage = parseFloat(dailyProfitPercentageInput.value) || 0;
+    const tradesPerDay = parseInt(tradesPerDayInput.value) || 1;
+
+    if (principal > 0 && percentage > 0) {
+        const dailyProfit = (principal * percentage) / 100;
+        const profitPerTrade = dailyProfit / tradesPerDay;
+
+        profitCalculationDisplay.innerHTML = `
+            مثال: سيكون الربح لكل صفقة <strong>$${profitPerTrade.toFixed(2)}</strong>
+            <br>
+            <small>(${principal} × ${percentage}% ÷ ${tradesPerDay} = ${profitPerTrade.toFixed(2)})</small>
+        `;
+    }
+}
+
+// إضافة مستمعي الأحداث لتحديث الحساب
+if (principalInput) {
+    principalInput.addEventListener('input', updateProfitCalculation);
+}
+if (dailyProfitPercentageInput) {
+    dailyProfitPercentageInput.addEventListener('input', updateProfitCalculation);
+}
+if (tradesPerDayInput) {
+    tradesPerDayInput.addEventListener('input', updateProfitCalculation);
+}
+
 // تفعيل روابط التنقل عند التمرير
 const sections = document.querySelectorAll('.section');
 const navLinks = document.querySelectorAll('.nav-link');
@@ -116,17 +188,32 @@ if (form) {
         e.preventDefault();
 
         const principal = parseFloat(document.getElementById('principal').value);
-        const profitPerTrade = parseFloat(document.getElementById('profitPerTrade').value);
         const tradesPerDay = parseInt(document.getElementById('tradesPerDay').value);
         const days = parseInt(document.getElementById('days').value);
 
-        if (principal <= 0) {
-            alert('رأس المال يجب أن يكون أكبر من صفر');
-            return false;
+        // تحديد طريقة الربح المختارة
+        const activeProfitModeBtn = document.querySelector('.profit-mode-btn.active');
+        const profitMode = activeProfitModeBtn ? activeProfitModeBtn.getAttribute('data-mode') : 'fixed';
+
+        let profitPerTrade = 0;
+        let dailyProfitPercentage = 0;
+
+        if (profitMode === 'fixed') {
+            profitPerTrade = parseFloat(document.getElementById('profitPerTrade').value);
+            if (profitPerTrade <= 0) {
+                alert('الربح لكل صفقة يجب أن يكون أكبر من صفر');
+                return false;
+            }
+        } else {
+            dailyProfitPercentage = parseFloat(document.getElementById('dailyProfitPercentage').value);
+            if (dailyProfitPercentage <= 0) {
+                alert('النسبة المئوية يجب أن تكون أكبر من صفر');
+                return false;
+            }
         }
 
-        if (profitPerTrade <= 0) {
-            alert('الربح لكل صفقة يجب أن يكون أكبر من صفر');
+        if (principal <= 0) {
+            alert('رأس المال يجب أن يكون أكبر من صفر');
             return false;
         }
 
@@ -151,6 +238,8 @@ if (form) {
             const formData = {
                 principal: principal,
                 profitPerTrade: profitPerTrade,
+                dailyProfitPercentage: dailyProfitPercentage,
+                profitMode: profitMode,
                 tradesPerDay: tradesPerDay,
                 reinvestPercent: parseFloat(document.getElementById('reinvestPercent').value),
                 workDaysPerWeek: parseInt(document.getElementById('workDaysPerWeek').value),
@@ -158,8 +247,15 @@ if (form) {
                 days: days
             };
 
+            console.log('Form Data:', formData);
+            console.log('Profit Mode:', profitMode);
+
             // إرسال الطلب إلى API
-            const response = await fetch('/.netlify/functions/api', {
+            // استخدم /api/calculate للتطوير المحلي و /.netlify/functions/api للإنتاج
+            const apiUrl = window.location.hostname === 'localhost' ? '/api/calculate' : '/.netlify/functions/api';
+            console.log('API URL:', apiUrl);
+
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -167,11 +263,16 @@ if (form) {
                 body: JSON.stringify(formData)
             });
 
+            console.log('Response Status:', response.status);
+
             if (!response.ok) {
-                throw new Error('فشل الحساب');
+                const errorText = await response.text();
+                console.error('Error Response:', errorText);
+                throw new Error('فشل الحساب: ' + response.status);
             }
 
             const result = await response.json();
+            console.log('Result:', result);
 
             // عرض النتائج
             displayResults(result.data);
@@ -300,41 +401,55 @@ function displayResults(data) {
     createCharts(data);
 }
 
-// دالة عرض نسبة الخطورة
+// دالة عرض نسبة الخطورة - محسّنة
 function displayRiskRatio(stats) {
     const riskRatioValue = document.getElementById('riskRatioValue');
     const riskLevelText = document.getElementById('riskLevelText');
     const riskDescription = document.getElementById('riskDescription');
     const riskCircle = document.getElementById('riskCircle');
 
-    riskRatioValue.textContent = stats.riskRatio;
-    riskLevelText.textContent = stats.riskLevel;
+    if (!riskRatioValue || !riskLevelText || !riskDescription || !riskCircle) {
+        console.warn('Risk ratio elements not found');
+        return;
+    }
+
+    const riskValue = stats.riskRatio || 0;
+    riskRatioValue.textContent = riskValue.toFixed(2);
+    riskLevelText.textContent = stats.riskLevel || 'منخفضة جداً';
 
     // تحديث لون البطاقة حسب مستوى الخطورة
     riskCircle.className = 'risk-circle';
 
     let descriptionText = '';
     let colorClass = '';
+    let emoji = '';
 
-    if (stats.riskRatio <= 5) {
+    if (riskValue <= 5) {
         colorClass = 'risk-very-low';
-        descriptionText = '✅ خطورة منخفضة جداً - استراتيجية آمنة جداً مع رأس مال كبير وأرباح محدودة';
-    } else if (stats.riskRatio <= 10) {
+        emoji = '✅';
+        descriptionText = 'خطورة منخفضة جداً - استراتيجية آمنة جداً مع رأس مال كبير وأرباح محدودة. مناسبة للمحافظين.';
+    } else if (riskValue <= 10) {
         colorClass = 'risk-low';
-        descriptionText = '✅ خطورة منخفضة - استراتيجية آمنة وموثوقة للمبتدئين';
-    } else if (stats.riskRatio <= 20) {
+        emoji = '✅';
+        descriptionText = 'خطورة منخفضة - استراتيجية آمنة وموثوقة للمبتدئين. نمو مستقر مع مخاطر محدودة.';
+    } else if (riskValue <= 20) {
         colorClass = 'risk-medium';
-        descriptionText = '⚠️ خطورة متوسطة - توازن معقول بين النمو والأمان';
-    } else if (stats.riskRatio <= 50) {
+        emoji = '⚠️';
+        descriptionText = 'خطورة متوسطة - توازن معقول بين النمو والأمان. تتطلب مراقبة منتظمة.';
+    } else if (riskValue <= 50) {
         colorClass = 'risk-high';
-        descriptionText = '⚠️ خطورة عالية - استراتيجية عدوانية تتطلب خبرة';
+        emoji = '⚠️';
+        descriptionText = 'خطورة عالية - استراتيجية عدوانية تتطلب خبرة وتحمل للمخاطر. قد تؤدي لخسائر كبيرة.';
     } else {
         colorClass = 'risk-very-high';
-        descriptionText = '❌ خطورة عالية جداً - استراتيجية محفوفة بالمخاطر جداً';
+        emoji = '❌';
+        descriptionText = 'خطورة عالية جداً - استراتيجية محفوفة بالمخاطر جداً. غير موصى بها للمبتدئين. احذر من الخسائر الكبيرة.';
     }
 
     riskCircle.classList.add(colorClass);
-    riskDescription.textContent = descriptionText;
+    riskDescription.innerHTML = `<strong>${emoji} ${stats.riskLevel}</strong><br>${descriptionText}`;
+
+    console.log('Risk Ratio Updated:', { riskValue, riskLevel: stats.riskLevel, colorClass });
 }
 
 // دالة إنشاء الرسوم البيانية
