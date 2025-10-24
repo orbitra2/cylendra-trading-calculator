@@ -281,8 +281,175 @@ function displayResults(data) {
     `).join('');
 
     // تحديث الرسوم البيانية
-    if (window.updateCharts) {
-        window.updateCharts(data);
+    createCharts(data);
+}
+
+// دالة إنشاء الرسوم البيانية
+function createCharts(data) {
+    const months = data.monthlyData.map(d => d.month);
+    const balanceData = data.monthlyData.map(d => d.balance);
+    const earningsData = data.monthlyData.map(d => d.earnings);
+    const cashOutData = data.monthlyData.map(d => d.cashOut);
+    const reinvestData = data.monthlyData.map(d => d.reinvest);
+    const roiData = data.monthlyData.map(d => d.roi);
+
+    // الرسم البياني الرئيسي
+    const mainChartCtx = document.getElementById('mainChart');
+    if (mainChartCtx && window.Chart) {
+        // حذف الرسم البياني السابق إن وجد
+        if (mainChartCtx.chart) {
+            mainChartCtx.chart.destroy();
+        }
+
+        mainChartCtx.chart = new Chart(mainChartCtx, {
+            type: 'line',
+            data: {
+                labels: months,
+                datasets: [
+                    {
+                        label: 'الرصيد',
+                        data: balanceData,
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: '#667eea',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2
+                    },
+                    {
+                        label: 'الأرباح الشهرية',
+                        data: earningsData,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: '#10b981',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            font: { size: 12, family: 'Cairo' },
+                            color: '#333',
+                            padding: 15
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { font: { family: 'Cairo' } }
+                    },
+                    x: {
+                        ticks: { font: { family: 'Cairo' } }
+                    }
+                }
+            }
+        });
+    }
+
+    // رسم بياني توزيع الأرباح
+    const pieChartCtx = document.getElementById('pieChart');
+    if (pieChartCtx && window.Chart) {
+        if (pieChartCtx.chart) {
+            pieChartCtx.chart.destroy();
+        }
+
+        pieChartCtx.chart = new Chart(pieChartCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['السحوبات النقدية', 'إعادة الاستثمار', 'المصاريف'],
+                datasets: [{
+                    data: [
+                        data.summary.totalCashOut,
+                        data.summary.totalReinvested,
+                        data.summary.totalExpenses
+                    ],
+                    backgroundColor: [
+                        '#f59e0b',
+                        '#ec4899',
+                        '#ef4444'
+                    ],
+                    borderColor: '#fff',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            font: { size: 12, family: 'Cairo' },
+                            color: '#333',
+                            padding: 15
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // رسم بياني نسبة العائد الشهري
+    const roiChartCtx = document.getElementById('roiChart');
+    if (roiChartCtx && window.Chart) {
+        if (roiChartCtx.chart) {
+            roiChartCtx.chart.destroy();
+        }
+
+        roiChartCtx.chart = new Chart(roiChartCtx, {
+            type: 'bar',
+            data: {
+                labels: months,
+                datasets: [{
+                    label: 'نسبة العائد %',
+                    data: roiData,
+                    backgroundColor: '#06b6d4',
+                    borderColor: '#0891b2',
+                    borderWidth: 2,
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                indexAxis: 'y',
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            font: { size: 12, family: 'Cairo' },
+                            color: '#333'
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { font: { family: 'Cairo' } }
+                    },
+                    y: {
+                        ticks: { font: { family: 'Cairo' } }
+                    }
+                }
+            }
+        });
     }
 }
 
