@@ -7,8 +7,3 @@
   command = "npm run dev"
   port = 3000
 
-[[redirects]]
-  from = "/*"
-  to = "/.netlify/functions/api"
-  status = 200
-

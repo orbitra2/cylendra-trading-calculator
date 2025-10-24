@@ -109,51 +109,181 @@ document.querySelectorAll('[title]').forEach(element => {
     });
 });
 
-// التحقق من صحة النموذج
+// التحقق من صحة النموذج والحساب عبر API
 const form = document.getElementById('calculatorForm');
 if (form) {
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
         const principal = parseFloat(document.getElementById('principal').value);
         const profitPerTrade = parseFloat(document.getElementById('profitPerTrade').value);
         const tradesPerDay = parseInt(document.getElementById('tradesPerDay').value);
         const days = parseInt(document.getElementById('days').value);
-        
+
         if (principal <= 0) {
-            e.preventDefault();
             alert('رأس المال يجب أن يكون أكبر من صفر');
             return false;
         }
-        
+
         if (profitPerTrade <= 0) {
-            e.preventDefault();
             alert('الربح لكل صفقة يجب أن يكون أكبر من صفر');
             return false;
         }
-        
+
         if (tradesPerDay <= 0) {
-            e.preventDefault();
             alert('عدد الصفقات يجب أن يكون أكبر من صفر');
             return false;
         }
-        
+
         if (days <= 0) {
-            e.preventDefault();
             alert('عدد الأيام يجب أن يكون أكبر من صفر');
             return false;
         }
-        
+
         // عرض رسالة تحميل
         const submitBtn = form.querySelector('button[type="submit"]');
         const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحساب...';
         submitBtn.disabled = true;
-        
-        // السماح بإرسال النموذج
-        setTimeout(() => {
+
+        try {
+            // جمع البيانات
+            const formData = {
+                principal: principal,
+                profitPerTrade: profitPerTrade,
+                tradesPerDay: tradesPerDay,
+                reinvestPercent: parseFloat(document.getElementById('reinvestPercent').value),
+                workDaysPerWeek: parseInt(document.getElementById('workDaysPerWeek').value),
+                monthlyExpenses: parseFloat(document.getElementById('monthlyExpenses').value),
+                days: days
+            };
+
+            // إرسال الطلب إلى API
+            const response = await fetch('/.netlify/functions/api', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (!response.ok) {
+                throw new Error('فشل الحساب');
+            }
+
+            const result = await response.json();
+
+            // عرض النتائج
+            displayResults(result.data);
+
+            // التمرير إلى قسم النتائج
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+
+        } catch (error) {
+            console.error('خطأ:', error);
+            alert('حدث خطأ في الحساب: ' + error.message);
+        } finally {
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
-        }, 500);
+        }
     });
+}
+
+// دالة عرض النتائج
+function displayResults(data) {
+    const resultsSection = document.getElementById('results');
+    const statsGrid = document.getElementById('statsGrid');
+    const tableBody = document.getElementById('tableBody');
+
+    // عرض قسم النتائج
+    resultsSection.style.display = 'block';
+
+    // عرض البطاقات الإحصائية
+    const stats = data.summary;
+    statsGrid.innerHTML = `
+        <div class="stat-card gradient-purple">
+            <div class="stat-icon"><i class="fas fa-wallet"></i></div>
+            <div class="stat-content">
+                <h3>الرصيد النهائي</h3>
+                <p class="stat-value">$${stats.finalBalance.toLocaleString()}</p>
+                <span class="stat-label">من أصل $${stats.initialBalance.toLocaleString()}</span>
+            </div>
+        </div>
+        <div class="stat-card gradient-blue">
+            <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+            <div class="stat-content">
+                <h3>صافي الربح</h3>
+                <p class="stat-value">$${stats.netProfit.toLocaleString()}</p>
+                <span class="stat-label">نسبة العائد: ${stats.roi}%</span>
+            </div>
+        </div>
+        <div class="stat-card gradient-green">
+            <div class="stat-icon"><i class="fas fa-coins"></i></div>
+            <div class="stat-content">
+                <h3>إجمالي الأرباح</h3>
+                <p class="stat-value">$${stats.totalEarnings.toLocaleString()}</p>
+                <span class="stat-label">خلال ${stats.totalDays} يوم</span>
+            </div>
+        </div>
+        <div class="stat-card gradient-orange">
+            <div class="stat-icon"><i class="fas fa-hand-holding-usd"></i></div>
+            <div class="stat-content">
+                <h3>السحوبات النقدية</h3>
+                <p class="stat-value">$${stats.totalCashOut.toLocaleString()}</p>
+                <span class="stat-label">متاح للسحب</span>
+            </div>
+        </div>
+        <div class="stat-card gradient-pink">
+            <div class="stat-icon"><i class="fas fa-recycle"></i></div>
+            <div class="stat-content">
+                <h3>إعادة الاستثمار</h3>
+                <p class="stat-value">$${stats.totalReinvested.toLocaleString()}</p>
+                <span class="stat-label">أُعيد استثماره</span>
+            </div>
+        </div>
+        <div class="stat-card gradient-red">
+            <div class="stat-icon"><i class="fas fa-receipt"></i></div>
+            <div class="stat-content">
+                <h3>المصاريف</h3>
+                <p class="stat-value">$${stats.totalExpenses.toLocaleString()}</p>
+                <span class="stat-label">مصاريف شهرية</span>
+            </div>
+        </div>
+        <div class="stat-card gradient-teal">
+            <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+            <div class="stat-content">
+                <h3>متوسط الربح الشهري</h3>
+                <p class="stat-value">$${stats.avgMonthlyProfit.toLocaleString()}</p>
+                <span class="stat-label">لكل شهر</span>
+            </div>
+        </div>
+        <div class="stat-card gradient-indigo">
+            <div class="stat-icon"><i class="fas fa-percent"></i></div>
+            <div class="stat-content">
+                <h3>متوسط النمو الشهري</h3>
+                <p class="stat-value">${stats.avgMonthlyGrowth}%</p>
+                <span class="stat-label">نمو شهري</span>
+            </div>
+        </div>
+    `;
+
+    // عرض جدول البيانات الشهرية
+    tableBody.innerHTML = data.monthlyData.map(row => `
+        <tr>
+            <td><strong>${row.month}</strong></td>
+            <td class="text-success">$${row.earnings.toLocaleString()}</td>
+            <td class="text-info">$${row.reinvest.toLocaleString()}</td>
+            <td class="text-warning">$${row.cashOut.toLocaleString()}</td>
+            <td class="text-danger">$${row.expenses.toLocaleString()}</td>
+            <td class="text-primary"><strong>$${row.balance.toLocaleString()}</strong></td>
+            <td class="text-success">${row.roi}%</td>
+        </tr>
+    `).join('');
+
+    // تحديث الرسوم البيانية
+    if (window.updateCharts) {
+        window.updateCharts(data);
+    }
 }
 
 // طباعة النتائج

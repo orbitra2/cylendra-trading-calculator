@@ -139,82 +139,27 @@ function round(num, decimals) {
     return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
 }
 
-app.get('/', (req, res) => {
-    res.render('index', { 
-        results: null,
-        input: {
-            principal: 1000,
-            profitPerTrade: 10,
-            tradesPerDay: 5,
-            reinvestPercent: 50,
-            days: 365,
-            workDaysPerWeek: 5,
-            monthlyExpenses: 0
+// معالجة جميع الطلبات - POST و GET
+app.all('*', (req, res) => {
+    // إذا كان POST - حساب الأرباح
+    if (req.method === 'POST') {
+        try {
+            const results = calculateProfits(req.body);
+            res.json({ success: true, data: results });
+        } catch (error) {
+            res.status(400).json({
+                success: false,
+                error: 'حدث خطأ في الحسابات: ' + error.message
+            });
         }
-    });
-});
-
-app.post('/api/calculate', (req, res) => {
-    try {
-        const results = calculateProfits(req.body);
-        res.json({ success: true, data: results });
-    } catch (error) {
-        res.status(400).json({ 
-            success: false, 
-            error: 'حدث خطأ في الحسابات: ' + error.message 
+    } else {
+        // إذا كان GET - إرجاع رسالة ترحيب
+        res.json({
+            success: true,
+            message: 'Trading Calculator API is running',
+            version: '2.0.0'
         });
     }
-});
-
-app.post('/calculate', (req, res) => {
-    try {
-        const results = calculateProfits(req.body);
-        res.render('index', { 
-            results: results,
-            input: req.body
-        });
-    } catch (error) {
-        res.render('index', { 
-            results: null,
-            input: req.body,
-            error: 'حدث خطأ في الحسابات'
-        });
-    }
-});
-
-app.post('/api/export', (req, res) => {
-    try {
-        const results = calculateProfits(req.body);
-        res.setHeader('Content-Type', 'application/json');
-        res.setHeader('Content-Disposition', 'attachment; filename=trading-results.json');
-        res.json(results);
-    } catch (error) {
-        res.status(400).json({ 
-            success: false, 
-            error: 'فشل التصدير' 
-        });
-    }
-});
-
-app.post('/api/export/csv', (req, res) => {
-    try {
-        const results = calculateProfits(req.body);
-        let csv = 'الشهر,الأرباح,إعادة الاستثمار,السحب النقدي,المصاريف,الرصيد,نسبة العائد\n';
-        
-        results.monthlyData.forEach(row => {
-            csv += `${row.month},${row.earnings},${row.reinvest},${row.cashOut},${row.expenses},${row.balance},${row.roi}%\n`;
-        });
-        
-        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
-        res.setHeader('Content-Disposition', 'attachment; filename=trading-results.csv');
-        res.send('\ufeff' + csv);
-    } catch (error) {
-        res.status(400).send('فشل التصدير');
-    }
-});
-
-app.use((req, res) => {
-    res.status(404).render('404');
 });
 
 module.exports = app;

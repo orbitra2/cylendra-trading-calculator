@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة التداول الذكية - Trading Calculator Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- شريط التنقل -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-chart-line"></i>
+                <span>حاسبة التداول الذكية</span>
+            </div>
+            <div class="nav-links">
+                <a href="#calculator" class="nav-link active">
+                    <i class="fas fa-calculator"></i> الحاسبة
+                </a>
+                <a href="#results" class="nav-link">
+                    <i class="fas fa-chart-bar"></i> النتائج
+                </a>
+                <a href="#guide" class="nav-link">
+                    <i class="fas fa-book"></i> دليل الاستخدام
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- القسم الرئيسي -->
+    <div class="hero-section">
+        <div class="container">
+            <h1 class="hero-title">
+                <i class="fas fa-rocket"></i>
+                احسب أرباحك المستقبلية بدقة احترافية
+            </h1>
+            <p class="hero-subtitle">
+                أداة متقدمة لحساب العوائد مع إعادة الاستثمار والمصاريف الشهرية
+            </p>
+        </div>
+    </div>
+
+    <div class="container main-container">
+        <!-- قسم الحاسبة -->
+        <div id="calculator" class="section">
+            <div class="grid-layout">
+                <!-- نموذج الإدخال -->
+                <div class="card input-card">
+                    <div class="card-header">
+                        <h2>
+                            <i class="fas fa-sliders-h"></i>
+                            إعدادات الحساب
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="calculatorForm">
+                            <!-- رأس المال -->
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-dollar-sign icon-label"></i>
+                                    رأس المال الأساسي
+                                    <span class="tooltip-icon" title="المبلغ الذي ستبدأ به التداول">
+                                        <i class="fas fa-info-circle"></i>
+                                    </span>
+                                </label>
+                                <div class="input-wrapper">
+                                    <input 
+                                        type="number" 
+                                        name="principal" 
+                                        id="principal"
+                                        class="form-input" 
+                                        value="1000"
+                                        step="0.01" 
+                                        min="1"
+                                        required
+                                    >
+                                    <span class="input-suffix">$</span>
+                                </div>
+                            </div>
+
+                            <!-- الربح لكل صفقة -->
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-coins icon-label"></i>
+                                    الربح لكل صفقة
+                                    <span class="tooltip-icon" title="الربح المتوقع من كل صفقة تداول">
+                                        <i class="fas fa-info-circle"></i>
+                                    </span>
+                                </label>
+                                <div class="input-wrapper">
+                                    <input 
+                                        type="number" 
+                                        name="profitPerTrade"
+                                        id="profitPerTrade"
+                                        class="form-input" 
+                                        value="10"
+                                        step="0.01"
+                                        min="0.01"
+                                        required
+                                    >
+                                    <span class="input-suffix">$</span>
+                                </div>
+                            </div>
+
+                            <!-- عدد الصفقات -->
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-exchange-alt icon-label"></i>
+                                    عدد الصفقات اليومية
+                                    <span class="tooltip-icon" title="عدد الصفقات التي تنفذها في اليوم الواحد">
+                                        <i class="fas fa-info-circle"></i>
+                                    </span>
+                                </label>
+                                <input 
+                                    type="number" 
+                                    name="tradesPerDay"
+                                    id="tradesPerDay"
+                                    class="form-input" 
+                                    value="5"
+                                    min="1"
+                                    required
+                                >
+                            </div>
+
+                            <!-- نسبة إعادة الاستثمار -->
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-percent icon-label"></i>
+                                    نسبة إعادة الاستثمار
+                                    <span class="tooltip-icon" title="النسبة المئوية من الأرباح التي ستعيد استثمارها">
+                                        <i class="fas fa-info-circle"></i>
+                                    </span>
+                                </label>
+                                <div class="slider-container">
+                                    <input 
+                                        type="range" 
+                                        name="reinvestPercent"
+                                        id="reinvestPercent"
+                                        class="form-slider" 
+                                        value="50"
+                                        min="0"
+                                        max="100"
+                                        step="1"
+                                    >
+                                    <div class="slider-value">
+                                        <span id="reinvestValue">50</span>%
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- أيام العمل -->
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-calendar-week icon-label"></i>
+                                    أيام العمل في الأسبوع
+                                    <span class="tooltip-icon" title="عدد أيام التداول في الأسبوع (5 = من الإثنين للجمعة)">
+                                        <i class="fas fa-info-circle"></i>
+                                    </span>
+                                </label>
+                                <select name="workDaysPerWeek" id="workDaysPerWeek" class="form-select">
+                                    <option value="5">5 أيام (الإثنين - الجمعة)</option>
+                                    <option value="6">6 أيام</option>
+                                    <option value="7">7 أيام (طوال الأسبوع)</option>
+                                </select>
+                            </div>
+
+                            <!-- المصاريف الشهرية -->
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-receipt icon-label"></i>
+                                    المصاريف الشهرية
+                                    <span class="tooltip-icon" title="المصاريف التي سيتم خصمها من أرباحك شهرياً">
+                                        <i class="fas fa-info-circle"></i>
+                                    </span>
+                                </label>
+                                <div class="input-wrapper">
+                                    <input 
+                                        type="number" 
+                                        name="monthlyExpenses"
+                                        id="monthlyExpenses"
+                                        class="form-input" 
+                                        value="0"
+                                        step="0.01"
+                                        min="0"
+                                    >
+                                    <span class="input-suffix">$</span>
+                                </div>
+                            </div>
+
+                            <!-- عدد الأيام -->
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-calendar-alt icon-label"></i>
+                                    المدة الزمنية
+                                    <span class="tooltip-icon" title="عدد الأيام التي تريد حساب الأرباح لها">
+                                        <i class="fas fa-info-circle"></i>
+                                    </span>
+                                </label>
+                                <div class="days-options">
+                                    <button type="button" class="day-btn" data-days="30">شهر</button>
+                                    <button type="button" class="day-btn" data-days="90">3 أشهر</button>
+                                    <button type="button" class="day-btn" data-days="180">6 أشهر</button>
+                                    <button type="button" class="day-btn" data-days="365">سنة</button>
+                                    <button type="button" class="day-btn" data-days="730">سنتان</button>
+                                </div>
+                                <input 
+                                    type="number" 
+                                    name="days"
+                                    id="days"
+                                    class="form-input" 
+                                    value="365"
+                                    min="1"
+                                    required
+                                >
+                            </div>
+
+                            <!-- زر الحساب -->
+                            <button type="submit" class="btn btn-primary btn-large">
+                                <i class="fas fa-calculator"></i>
+                                احسب الأرباح الآن
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- بطاقات المعلومات السريعة -->
+                <div class="info-cards">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3>نصيحة ذكية</h3>
+                        <p>ابدأ بنسبة إعادة استثمار 50% لتحقيق توازن بين النمو والأرباح النقدية</p>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>إدارة المخاطر</h3>
+                        <p>لا تنسَ حساب المصاريف الشهرية للحصول على توقعات واقعية</p>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>النمو المركب</h3>
+                        <p>إعادة الاستثمار تساعد على تحقيق نمو أسي في رأس المال على المدى الطويل</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم النتائج -->
+        <div id="results" class="section" style="display: none;">
+            <!-- البطاقات الإحصائية -->
+            <div class="stats-grid" id="statsGrid"></div>
+
+            <!-- الرسوم البيانية -->
+            <div class="charts-section">
+                <div class="card chart-card">
+                    <div class="card-header">
+                        <h2>
+                            <i class="fas fa-chart-area"></i>
+                            تطور الرصيد والأرباح
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="mainChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card chart-card">
+                        <div class="card-header">
+                            <h3>توزيع الأرباح</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="pieChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card chart-card">
+                        <div class="card-header">
+                            <h3>نسبة العائد الشهري</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="roiChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- جدول البيانات الشهرية -->
+            <div class="card table-card">
+                <div class="card-header">
+                    <h2>
+                        <i class="fas fa-table"></i>
+                        التفاصيل الشهرية
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="data-table" id="dataTable">
+                            <thead>
+                                <tr>
+                                    <th>الشهر</th>
+                                    <th>الأرباح</th>
+                                    <th>إعادة الاستثمار</th>
+                                    <th>السحب النقدي</th>
+                                    <th>المصاريف</th>
+                                    <th>الرصيد</th>
+                                    <th>نسبة العائد</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- دليل الاستخدام -->
+        <div id="guide" class="section">
+            <div class="card">
+                <div class="card-header">
+                    <h2>
+                        <i class="fas fa-book-open"></i>
+                        دليل الاستخدام
+                    </h2>
+                </div>
+                <div class="card-body guide-content">
+                    <div class="guide-item">
+                        <div class="guide-number">1</div>
+                        <div class="guide-text">
+                            <h3>أدخل رأس المال الأساسي</h3>
+                            <p>المبلغ الذي ستبدأ به التداول</p>
+                        </div>
+                    </div>
+
+                    <div class="guide-item">
+                        <div class="guide-number">2</div>
+                        <div class="guide-text">
+                            <h3>حدد الربح المتوقع لكل صفقة</h3>
+                            <p>متوسط الربح الذي تتوقعه من كل صفقة تداول</p>
+                        </div>
+                    </div>
+
+                    <div class="guide-item">
+                        <div class="guide-number">3</div>
+                        <div class="guide-text">
+                            <h3>اختر عدد الصفقات اليومية</h3>
+                            <p>كم صفقة تنوي تنفيذها يومياً</p>
+                        </div>
+                    </div>
+
+                    <div class="guide-item">
+                        <div class="guide-number">4</div>
+                        <div class="guide-text">
+                            <h3>اضبط نسبة إعادة الاستثمار</h3>
+                            <p>النسبة من الأرباح التي ستعيد استثمارها لزيادة رأس المال</p>
+                        </div>
+                    </div>
+
+                    <div class="guide-item">
+                        <div class="guide-number">5</div>
+                        <div class="guide-text">
+                            <h3>احسب المصاريف الشهرية</h3>
+                            <p>أي مصاريف ثابتة ستخصم من أرباحك شهرياً</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 حاسبة التداول الذكية. جميع الحقوق محفوظة.</p>
+            <p class="footer-note">
+                <i class="fas fa-exclamation-triangle"></i>
+                تنبيه: هذه الحسابات تقديرية ولا تضمن تحقيق أرباح فعلية. التداول ينطوي على مخاطر.
+            </p>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
+

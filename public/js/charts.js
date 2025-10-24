@@ -1,13 +1,12 @@
-// التحقق من وجود بيانات الرسم البياني
-if (typeof chartData !== 'undefined') {
-    
+// دالة تحديث الرسوم البيانية
+window.updateCharts = function(data) {
     // إعداد البيانات
-    const months = chartData.monthlyData.map(d => d.month);
-    const balanceData = chartData.monthlyData.map(d => d.balance);
-    const earningsData = chartData.monthlyData.map(d => d.earnings);
-    const cashOutData = chartData.monthlyData.map(d => d.cashOut);
-    const reinvestData = chartData.monthlyData.map(d => d.reinvest);
-    const roiData = chartData.monthlyData.map(d => d.roi);
+    const months = data.monthlyData.map(d => d.month);
+    const balanceData = data.monthlyData.map(d => d.balance);
+    const earningsData = data.monthlyData.map(d => d.earnings);
+    const cashOutData = data.monthlyData.map(d => d.cashOut);
+    const reinvestData = data.monthlyData.map(d => d.reinvest);
+    const roiData = data.monthlyData.map(d => d.roi);
 
     // الرسم البياني الرئيسي - تطور الرصيد والأرباح
     const mainChartCtx = document.getElementById('mainChart');
@@ -300,6 +299,6 @@ if (typeof chartData !== 'undefined') {
             });
         }
     }, 500);
-}
+};
 
 console.log('✅ Charts loaded successfully!');
