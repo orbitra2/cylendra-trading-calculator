@@ -1,0 +1,66 @@
+{
+  "stats": {
+    "finalBalance": "Solde final",
+    "netProfit": "Profit net",
+    "totalEarnings": "Gains totaux",
+    "totalCashOut": "Retraits en espèces",
+    "totalReinvested": "Réinvesti",
+    "totalExpenses": "Dépenses",
+    "avgMonthlyProfit": "Profit mensuel moyen",
+    "avgMonthlyGrowth": "Croissance mensuelle moyenne",
+    "fromInitial": "de",
+    "roi": "ROI",
+    "inDays": "en",
+    "availableForWithdrawal": "Disponible pour retrait",
+    "reinvested": "réinvesti",
+    "monthlyExpenses": "dépenses mensuelles",
+    "perMonth": "par mois",
+    "monthlyGrowth": "croissance mensuelle"
+  },
+  "risk": {
+    "title": "Évaluation des risques",
+    "level": "Niveau de risque:",
+    "levels": {
+      "veryLow": "Très faible",
+      "low": "Faible",
+      "medium": "Moyen",
+      "high": "Élevé",
+      "veryHigh": "Très élevé"
+    },
+    "descriptions": {
+      "veryLow": "Risque très faible - Stratégie très sûre avec un grand capital et des profits limités. Convient aux conservateurs.",
+      "low": "Risque faible - Stratégie sûre et fiable pour les débutants. Croissance stable avec des risques limités.",
+      "medium": "Risque moyen - Équilibre raisonnable entre croissance et sécurité. Nécessite une surveillance régulière.",
+      "high": "Risque élevé - Stratégie agressive nécessitant de l'expérience et une tolérance au risque. Peut entraîner de grandes pertes.",
+      "veryHigh": "Risque très élevé - Stratégie très risquée. Non recommandée pour les débutants. Attention aux grandes pertes."
+    }
+  },
+  "charts": {
+    "balanceAndEarnings": "Évolution du solde et des gains",
+    "earningsDistribution": "Distribution des gains",
+    "monthlyROI": "ROI mensuel",
+    "balance": "Solde",
+    "monthlyEarnings": "Gains mensuels",
+    "cashOut": "Retraits en espèces",
+    "reinvest": "Réinvestissement",
+    "expenses": "Dépenses",
+    "monthlyROI": "ROI mensuel %"
+  },
+  "tables": {
+    "monthlyDetails": "Détails mensuels",
+    "dailyDetails": "Détails quotidiens (90 premiers jours)",
+    "monthLabel": "Mois {{month}}",
+    "dayLabel": "Jour {{day}}",
+    "headers": {
+      "month": "Mois",
+      "earnings": "Gains",
+      "reinvest": "Réinvestissement",
+      "cashOut": "Retrait en espèces",
+      "expenses": "Dépenses",
+      "balance": "Solde",
+      "roi": "ROI",
+      "day": "Jour",
+      "dailyProfit": "Profit quotidien"
+    }
+  }
+}

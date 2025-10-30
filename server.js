@@ -101,7 +101,7 @@ function calculateProfits(data) {
             monthExpenses += expenses;
             
             monthlyData.push({
-                month: `الشهر ${month}`,
+                month: `Month ${month}`,
                 monthNumber: month,
                 earnings: round(monthEarnings, 2),
                 reinvest: round(monthReinvest, 2),
@@ -139,11 +139,11 @@ function calculateProfits(data) {
     );
 
     // تصنيف مستوى الخطورة
-    let riskLevel = 'منخفضة جداً';
-    if (riskRatio > 50) riskLevel = 'عالية جداً';
-    else if (riskRatio > 20) riskLevel = 'عالية';
-    else if (riskRatio > 10) riskLevel = 'متوسطة';
-    else if (riskRatio > 5) riskLevel = 'منخفضة';
+    let riskLevel = 'veryLow';
+    if (riskRatio > 50) riskLevel = 'veryHigh';
+    else if (riskRatio > 20) riskLevel = 'high';
+    else if (riskRatio > 10) riskLevel = 'medium';
+    else if (riskRatio > 5) riskLevel = 'low';
 
     return {
         summary: {
@@ -172,10 +172,52 @@ function round(num, decimals) {
     return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
 }
 
+// دعم اللغات
+const supportedLanguages = ['ar', 'en', 'ru', 'fr', 'tr'];
+const defaultLanguage = 'ar';
+
+// Middleware لتحديد اللغة
+app.use((req, res, next) => {
+    // تحديد اللغة من query parameter أولاً
+    let language = req.query.lang;
+    
+    // إذا لم تكن موجودة، احصل على لغة المتصفح
+    if (!language) {
+        const acceptLanguage = req.headers['accept-language'];
+        if (acceptLanguage) {
+            // احصل على أول لغة مدعومة من Accept-Language header
+            const browserLanguages = acceptLanguage.split(',').map(lang => {
+                const [langCode] = lang.trim().split(';');
+                return langCode.split('-')[0]; // احصل على كود اللغة فقط (مثل 'en' من 'en-US')
+            });
+            
+            // ابحث عن أول لغة مدعومة
+            language = browserLanguages.find(lang => supportedLanguages.includes(lang));
+        }
+    }
+    
+    // إذا لم تكن موجودة، استخدم اللغة الافتراضية
+    if (!language) {
+        language = defaultLanguage;
+    }
+    
+    // التأكد من أن اللغة مدعومة
+    if (!supportedLanguages.includes(language)) {
+        language = defaultLanguage;
+    }
+    
+    req.language = language;
+    res.locals.language = language;
+    console.log(`Language detected for ${req.url}: ${language} (from ${req.query.lang ? 'query' : 'browser'})`);
+    next();
+});
+
 // الصفحة الرئيسية
 app.get('/', (req, res) => {
+    console.log('Rendering index with language:', req.language);
     res.render('index', { 
         results: null,
+        language: req.language || 'ar',
         input: {
             principal: 1000,
             profitPerTrade: 10,
@@ -185,6 +227,28 @@ app.get('/', (req, res) => {
             workDaysPerWeek: 5,
             monthlyExpenses: 0
         }
+    });
+});
+
+// مسارات اللغات المختلفة
+supportedLanguages.forEach(lang => {
+    app.get(`/${lang}`, (req, res) => {
+        console.log(`Rendering index with language: ${lang}`);
+        req.language = lang;
+        res.locals.language = lang;
+        res.render('index', { 
+            results: null,
+            language: lang,
+            input: {
+                principal: 1000,
+                profitPerTrade: 10,
+                tradesPerDay: 5,
+                reinvestPercent: 50,
+                days: 365,
+                workDaysPerWeek: 5,
+                monthlyExpenses: 0
+            }
+        });
     });
 });
 
@@ -237,7 +301,7 @@ app.post('/api/export', (req, res) => {
 app.post('/api/export/csv', (req, res) => {
     try {
         const results = calculateProfits(req.body);
-        let csv = 'الشهر,الأرباح,إعادة الاستثمار,السحب النقدي,المصاريف,الرصيد,نسبة العائد\n';
+        let csv = 'Month,Earnings,Reinvestment,Cash Out,Expenses,Balance,ROI\n';
         
         results.monthlyData.forEach(row => {
             csv += `${row.month},${row.earnings},${row.reinvest},${row.cashOut},${row.expenses},${row.balance},${row.roi}%\n`;

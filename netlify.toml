@@ -7,3 +7,31 @@
   command = "npm run dev"
   port = 3000
 
+# API routes - redirect to API function
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+# Language routes - redirect to server function
+[[redirects]]
+  from = "/:lang"
+  to = "/.netlify/functions/server/:lang"
+  status = 200
+  force = false
+  conditions = {Language = ["ar", "en", "ru", "fr", "tr"]}
+
+# Main page - redirect to server function
+[[redirects]]
+  from = "/"
+  to = "/.netlify/functions/server"
+  status = 200
+  force = false
+
+# Fallback - all other routes to server function for SSR
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/server"
+  status = 200
+  force = false

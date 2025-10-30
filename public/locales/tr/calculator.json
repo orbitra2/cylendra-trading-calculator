@@ -1,0 +1,69 @@
+{
+  "title": "Hesaplama Ayarları",
+  "fields": {
+    "principal": {
+      "label": "Başlangıç Sermayesi",
+      "tooltip": "Trading'e başlayacağınız miktar",
+      "suffix": "$"
+    },
+    "profitMode": {
+      "label": "Kâr Hesaplama Yöntemi",
+      "tooltip": "İşlem başına kârı nasıl hesaplayacağınızı seçin",
+      "fixed": "Sabit Kâr",
+      "percentage": "Yüzde"
+    },
+    "profitPerTrade": {
+      "label": "İşlem Başına Kâr",
+      "tooltip": "Her trading işleminden beklenen kâr (dolar cinsinden)",
+      "suffix": "$"
+    },
+    "dailyProfitPercentage": {
+      "label": "Sermayeden Günlük Kâr Yüzdesi",
+      "tooltip": "Günlük olarak kazanmak istediğiniz sermaye yüzdesi",
+      "suffix": "%",
+      "calculation": "Günlük Kâr = Sermaye × Yüzde ÷ İşlem Sayısı",
+      "example": "Örnek: İşlem başına kâr"
+    },
+    "tradesPerDay": {
+      "label": "Günlük İşlem Sayısı",
+      "tooltip": "Günde kaç işlem yapacağınız"
+    },
+    "reinvestPercent": {
+      "label": "Yeniden Yatırım Yüzdesi",
+      "tooltip": "Yeniden yatırım yapacağınız kâr yüzdesi",
+      "suffix": "%"
+    },
+    "workDaysPerWeek": {
+      "label": "Haftalık Çalışma Günleri",
+      "tooltip": "Haftada kaç gün trading yapacağınız (5 = Pazartesi-Cuma)",
+      "options": {
+        "5": "5 gün (Pazartesi - Cuma)",
+        "6": "6 gün",
+        "7": "7 gün (Tüm hafta)"
+      }
+    },
+    "monthlyExpenses": {
+      "label": "Aylık Giderler",
+      "tooltip": "Aylık kârlarınızdan düşülecek giderler",
+      "suffix": "$"
+    },
+    "days": {
+      "label": "Zaman Periyodu",
+      "tooltip": "Kârları hesaplamak istediğiniz gün sayısı",
+      "quickOptions": {
+        "30": "Ay",
+        "90": "3 Ay",
+        "180": "6 Ay",
+        "365": "Yıl",
+        "730": "2 Yıl"
+      }
+    }
+  },
+  "validation": {
+    "principalRequired": "Sermaye sıfırdan büyük olmalı",
+    "profitPerTradeRequired": "İşlem başına kâr sıfırdan büyük olmalı",
+    "percentageRequired": "Yüzde sıfırdan büyük olmalı",
+    "tradesPerDayRequired": "İşlem sayısı sıfırdan büyük olmalı",
+    "daysRequired": "Gün sayısı sıfırdan büyük olmalı"
+  }
+}

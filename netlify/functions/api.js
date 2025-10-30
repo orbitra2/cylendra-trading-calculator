@@ -98,7 +98,7 @@ function calculateProfits(data) {
             monthExpenses += expenses;
             
             monthlyData.push({
-                month: `الشهر ${month}`,
+                month: `Month ${month}`,
                 monthNumber: month,
                 earnings: round(monthEarnings, 2),
                 reinvest: round(monthReinvest, 2),
@@ -127,19 +127,19 @@ function calculateProfits(data) {
     const avgMonthlyGrowth = monthlyData.length > 1 ?
         round(((monthlyData[monthlyData.length - 1].balance / monthlyData[0].balance - 1) / monthlyData.length) * 100, 2) : 0;
 
-    // حساب نسبة الخطورة (Risk Ratio)
+    // حساب نسبة الخطورة (Risk Ratio) - محسّنة
     // المعادلة: (الربح لكل صفقة / رأس المال) × عدد الصفقات اليومية × 100
     const riskRatio = round(
-        (parseFloat(profitPerTrade) / parseFloat(principal)) * parseInt(tradesPerDay) * 100,
+        (profitPerTradeValue / parseFloat(principal)) * parseInt(tradesPerDay) * 100,
         2
     );
 
     // تصنيف مستوى الخطورة
-    let riskLevel = 'منخفضة جداً';
-    if (riskRatio > 50) riskLevel = 'عالية جداً';
-    else if (riskRatio > 20) riskLevel = 'عالية';
-    else if (riskRatio > 10) riskLevel = 'متوسطة';
-    else if (riskRatio > 5) riskLevel = 'منخفضة';
+    let riskLevel = 'veryLow';
+    if (riskRatio > 50) riskLevel = 'veryHigh';
+    else if (riskRatio > 20) riskLevel = 'high';
+    else if (riskRatio > 10) riskLevel = 'medium';
+    else if (riskRatio > 5) riskLevel = 'low';
 
     return {
         summary: {
@@ -167,7 +167,53 @@ function round(num, decimals) {
     return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
 }
 
-// معالجة جميع الطلبات - POST و GET
+// API endpoint للحسابات - دعم المسارات المختلفة
+app.post(['/api/calculate', '/calculate'], (req, res) => {
+    try {
+        const results = calculateProfits(req.body);
+        res.json({ success: true, data: results });
+    } catch (error) {
+        res.status(400).json({ 
+            success: false, 
+            error: 'حدث خطأ في الحسابات: ' + error.message 
+        });
+    }
+});
+
+// تصدير البيانات كـ JSON
+app.post(['/api/export', '/export'], (req, res) => {
+    try {
+        const results = calculateProfits(req.body);
+        res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Content-Disposition', 'attachment; filename=trading-results.json');
+        res.json(results);
+    } catch (error) {
+        res.status(400).json({ 
+            success: false, 
+            error: 'فشل التصدير' 
+        });
+    }
+});
+
+// تصدير البيانات كـ CSV
+app.post(['/api/export/csv', '/export/csv'], (req, res) => {
+    try {
+        const results = calculateProfits(req.body);
+        let csv = 'Month,Earnings,Reinvestment,Cash Out,Expenses,Balance,ROI\n';
+        
+        results.monthlyData.forEach(row => {
+            csv += `${row.month},${row.earnings},${row.reinvest},${row.cashOut},${row.expenses},${row.balance},${row.roi}%\n`;
+        });
+        
+        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+        res.setHeader('Content-Disposition', 'attachment; filename=trading-results.csv');
+        res.send('\ufeff' + csv); // إضافة BOM لدعم العربية في Excel
+    } catch (error) {
+        res.status(400).send('فشل التصدير');
+    }
+});
+
+// معالجة جميع الطلبات - POST و GET (fallback)
 app.all('*', (req, res) => {
     // إذا كان POST - حساب الأرباح
     if (req.method === 'POST') {

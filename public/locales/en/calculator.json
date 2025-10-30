@@ -1,0 +1,69 @@
+{
+  "title": "Calculation Settings",
+  "fields": {
+    "principal": {
+      "label": "Initial Capital",
+      "tooltip": "The amount you will start trading with",
+      "suffix": "$"
+    },
+    "profitMode": {
+      "label": "Profit Calculation Method",
+      "tooltip": "Choose how to calculate profit per trade",
+      "fixed": "Fixed Profit",
+      "percentage": "Percentage"
+    },
+    "profitPerTrade": {
+      "label": "Profit per Trade",
+      "tooltip": "Expected profit from each trading transaction in dollars",
+      "suffix": "$"
+    },
+    "dailyProfitPercentage": {
+      "label": "Daily Profit Percentage of Capital",
+      "tooltip": "Percentage of capital you want to earn daily",
+      "suffix": "%",
+      "calculation": "Daily Profit = Capital × Percentage ÷ Number of Trades",
+      "example": "Example: Profit per trade will be"
+    },
+    "tradesPerDay": {
+      "label": "Daily Number of Trades",
+      "tooltip": "Number of trades you will execute per day"
+    },
+    "reinvestPercent": {
+      "label": "Reinvestment Percentage",
+      "tooltip": "Percentage of profits you will reinvest",
+      "suffix": "%"
+    },
+    "workDaysPerWeek": {
+      "label": "Working Days per Week",
+      "tooltip": "Number of trading days per week (5 = Monday to Friday)",
+      "options": {
+        "5": "5 days (Monday - Friday)",
+        "6": "6 days",
+        "7": "7 days (All week)"
+      }
+    },
+    "monthlyExpenses": {
+      "label": "Monthly Expenses",
+      "tooltip": "Expenses that will be deducted from your monthly profits",
+      "suffix": "$"
+    },
+    "days": {
+      "label": "Time Period",
+      "tooltip": "Number of days you want to calculate profits for",
+      "quickOptions": {
+        "30": "Month",
+        "90": "3 Months",
+        "180": "6 Months",
+        "365": "Year",
+        "730": "2 Years"
+      }
+    }
+  },
+  "validation": {
+    "principalRequired": "Capital must be greater than zero",
+    "profitPerTradeRequired": "Profit per trade must be greater than zero",
+    "percentageRequired": "Percentage must be greater than zero",
+    "tradesPerDayRequired": "Number of trades must be greater than zero",
+    "daysRequired": "Number of days must be greater than zero"
+  }
+}

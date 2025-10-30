@@ -1,0 +1,44 @@
+{
+  "app": {
+    "title": "حاسبة التداول الذكية",
+    "subtitle": "احسب أرباحك المستقبلية بدقة احترافية",
+    "description": "أداة متقدمة لحساب العوائد مع إعادة الاستثمار والمصاريف الشهرية"
+  },
+  "navigation": {
+    "calculator": "الحاسبة",
+    "results": "النتائج",
+    "guide": "دليل الاستخدام"
+  },
+  "buttons": {
+    "calculate": "احسب الأرباح الآن",
+    "calculating": "جاري الحساب...",
+    "print": "طباعة",
+    "copy": "نسخ",
+    "share": "مشاركة"
+  },
+  "footer": {
+    "copyright": "جميع الحقوق محفوظة",
+    "disclaimer": "تنبيه: هذه الحسابات تقديرية ولا تضمن تحقيق أرباح فعلية. التداول ينطوي على مخاطر."
+  },
+  "day": "يوم",
+  "calculationFailed": "فشل الحساب",
+  "calculationError": "حدث خطأ في الحساب",
+  "stats": {
+    "finalBalance": "الرصيد النهائي",
+    "fromInitial": "من أصل",
+    "netProfit": "صافي الربح",
+    "roi": "نسبة العائد",
+    "totalEarnings": "إجمالي الأرباح",
+    "inDays": "خلال",
+    "totalCashOut": "السحوبات النقدية",
+    "availableForWithdrawal": "متاح للسحب",
+    "totalReinvested": "إعادة الاستثمار",
+    "reinvested": "أُعيد استثماره",
+    "totalExpenses": "المصاريف",
+    "monthlyExpenses": "مصاريف شهرية",
+    "avgMonthlyProfit": "متوسط الربح الشهري",
+    "perMonth": "لكل شهر",
+    "avgMonthlyGrowth": "متوسط النمو الشهري",
+    "monthlyGrowth": "نمو شهري"
+  }
+}

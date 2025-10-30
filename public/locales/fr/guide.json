@@ -1,0 +1,39 @@
+{
+  "title": "Guide d'utilisation",
+  "steps": {
+    "1": {
+      "title": "Entrez le capital initial",
+      "description": "Le montant avec lequel vous commencerez à trader"
+    },
+    "2": {
+      "title": "Définissez le profit attendu par trade",
+      "description": "Profit moyen que vous attendez de chaque transaction de trading"
+    },
+    "3": {
+      "title": "Choisissez le nombre de trades quotidiens",
+      "description": "Combien de trades vous prévoyez d'exécuter quotidiennement"
+    },
+    "4": {
+      "title": "Ajustez le pourcentage de réinvestissement",
+      "description": "Pourcentage des profits que vous réinvestirez pour augmenter le capital"
+    },
+    "5": {
+      "title": "Calculez les dépenses mensuelles",
+      "description": "Toute dépense fixe qui sera déduite de vos profits mensuels"
+    }
+  },
+  "tips": {
+    "smartTip": {
+      "title": "Conseil intelligent",
+      "description": "Commencez avec un taux de réinvestissement de 50% pour atteindre un équilibre entre croissance et profits en espèces"
+    },
+    "riskManagement": {
+      "title": "Gestion des risques",
+      "description": "N'oubliez pas de calculer les dépenses mensuelles pour des projections réalistes"
+    },
+    "compoundGrowth": {
+      "title": "Croissance composée",
+      "description": "Le réinvestissement aide à atteindre une croissance exponentielle du capital à long terme"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "title": "Kullanım Kılavuzu",
+  "steps": {
+    "1": {
+      "title": "Başlangıç sermayesini girin",
+      "description": "Trading'e başlayacağınız miktar"
+    },
+    "2": {
+      "title": "İşlem başına beklenen kârı belirleyin",
+      "description": "Her trading işleminden beklediğiniz ortalama kâr"
+    },
+    "3": {
+      "title": "Günlük işlem sayısını seçin",
+      "description": "Günde kaç işlem yapmayı planlıyorsunuz"
+    },
+    "4": {
+      "title": "Yeniden yatırım yüzdesini ayarlayın",
+      "description": "Sermayeyi artırmak için yeniden yatırım yapacağınız kâr yüzdesi"
+    },
+    "5": {
+      "title": "Aylık giderleri hesaplayın",
+      "description": "Aylık kârlarınızdan düşülecek sabit giderler"
+    }
+  },
+  "tips": {
+    "smartTip": {
+      "title": "Akıllı İpucu",
+      "description": "Büyüme ve nakit kâr arasında denge sağlamak için %50 yeniden yatırım oranıyla başlayın"
+    },
+    "riskManagement": {
+      "title": "Risk Yönetimi",
+      "description": "Gerçekçi projeksiyonlar için aylık giderleri hesaplamayı unutmayın"
+    },
+    "compoundGrowth": {
+      "title": "Bileşik Büyüme",
+      "description": "Yeniden yatırım, uzun vadede sermayede üstel büyüme sağlamaya yardımcı olur"
+    }
+  }
+}

@@ -102,8 +102,11 @@ function updateProfitCalculation() {
         const dailyProfit = (principal * percentage) / 100;
         const profitPerTrade = dailyProfit / tradesPerDay;
 
+        const exampleText = window.t ? window.t('calculator:fields.dailyProfitPercentage.example') : 'مثال: سيكون الربح لكل صفقة';
+        const calculationText = window.t ? window.t('calculator:fields.dailyProfitPercentage.calculation') : 'الربح اليومي = رأس المال × النسبة ÷ عدد الصفقات';
+        
         profitCalculationDisplay.innerHTML = `
-            مثال: سيكون الربح لكل صفقة <strong>$${profitPerTrade.toFixed(2)}</strong>
+            ${exampleText} <strong>$${profitPerTrade.toFixed(2)}</strong>
             <br>
             <small>(${principal} × ${percentage}% ÷ ${tradesPerDay} = ${profitPerTrade.toFixed(2)})</small>
         `;
@@ -201,36 +204,37 @@ if (form) {
         if (profitMode === 'fixed') {
             profitPerTrade = parseFloat(document.getElementById('profitPerTrade').value);
             if (profitPerTrade <= 0) {
-                alert('الربح لكل صفقة يجب أن يكون أكبر من صفر');
+                alert(window.t ? window.t('validation.profitPerTradeRequired', {ns: 'calculator'}) : 'الربح لكل صفقة يجب أن يكون أكبر من صفر');
                 return false;
             }
         } else {
             dailyProfitPercentage = parseFloat(document.getElementById('dailyProfitPercentage').value);
             if (dailyProfitPercentage <= 0) {
-                alert('النسبة المئوية يجب أن تكون أكبر من صفر');
+                alert(window.t ? window.t('validation.percentageRequired', {ns: 'calculator'}) : 'النسبة المئوية يجب أن تكون أكبر من صفر');
                 return false;
             }
         }
 
         if (principal <= 0) {
-            alert('رأس المال يجب أن يكون أكبر من صفر');
+            alert(window.t ? window.t('validation.principalRequired', {ns: 'calculator'}) : 'رأس المال يجب أن يكون أكبر من صفر');
             return false;
         }
 
         if (tradesPerDay <= 0) {
-            alert('عدد الصفقات يجب أن يكون أكبر من صفر');
+            alert(window.t ? window.t('validation.tradesPerDayRequired', {ns: 'calculator'}) : 'عدد الصفقات يجب أن يكون أكبر من صفر');
             return false;
         }
 
         if (days <= 0) {
-            alert('عدد الأيام يجب أن يكون أكبر من صفر');
+            alert(window.t ? window.t('validation.daysRequired', {ns: 'calculator'}) : 'عدد الأيام يجب أن يكون أكبر من صفر');
             return false;
         }
 
         // عرض رسالة تحميل
         const submitBtn = form.querySelector('button[type="submit"]');
         const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحساب...';
+        const calculatingText = window.t ? window.t('buttons.calculating', {ns: 'common'}) : 'جاري الحساب...';
+        submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${calculatingText}`;
         submitBtn.disabled = true;
 
         try {
@@ -268,7 +272,8 @@ if (form) {
             if (!response.ok) {
                 const errorText = await response.text();
                 console.error('Error Response:', errorText);
-                throw new Error('فشل الحساب: ' + response.status);
+                const errorMsg = window.t ? window.t('calculationFailed', {ns: 'common'}) : 'فشل الحساب';
+                throw new Error(`${errorMsg}: ${response.status}`);
             }
 
             const result = await response.json();
@@ -282,7 +287,8 @@ if (form) {
 
         } catch (error) {
             console.error('خطأ:', error);
-            alert('حدث خطأ في الحساب: ' + error.message);
+            const errorMsg = window.t ? window.t('calculationError', {ns: 'common'}) : 'حدث خطأ في الحساب';
+            alert(`${errorMsg}: ${error.message}`);
         } finally {
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
@@ -302,77 +308,79 @@ function displayResults(data) {
 
     // عرض البطاقات الإحصائية
     const stats = data.summary;
+    const finalBalanceText = window.t ? window.t('stats.finalBalance', {ns: 'results'}) : 'الرصيد النهائي';
+    const fromInitialText = window.t ? window.t('stats.fromInitial', {ns: 'results'}) : 'من أصل';
     statsGrid.innerHTML = `
         <div class="stat-card gradient-purple">
             <div class="stat-icon"><i class="fas fa-wallet"></i></div>
             <div class="stat-content">
-                <h3>الرصيد النهائي</h3>
+                <h3>${finalBalanceText}</h3>
                 <p class="stat-value">$${stats.finalBalance.toLocaleString()}</p>
-                <span class="stat-label">من أصل $${stats.initialBalance.toLocaleString()}</span>
+                <span class="stat-label">${fromInitialText} $${stats.initialBalance.toLocaleString()}</span>
             </div>
         </div>
         <div class="stat-card gradient-blue">
             <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
             <div class="stat-content">
-                <h3>صافي الربح</h3>
+                <h3>${window.t ? window.t('stats.netProfit', {ns: 'results'}) : 'صافي الربح'}</h3>
                 <p class="stat-value">$${stats.netProfit.toLocaleString()}</p>
-                <span class="stat-label">نسبة العائد: ${stats.roi}%</span>
+                <span class="stat-label">${window.t ? window.t('stats.roi', {ns: 'results'}) : 'نسبة العائد'}: ${stats.roi}%</span>
             </div>
         </div>
         <div class="stat-card gradient-green">
             <div class="stat-icon"><i class="fas fa-coins"></i></div>
             <div class="stat-content">
-                <h3>إجمالي الأرباح</h3>
+                <h3>${window.t ? window.t('stats.totalEarnings', {ns: 'results'}) : 'إجمالي الأرباح'}</h3>
                 <p class="stat-value">$${stats.totalEarnings.toLocaleString()}</p>
-                <span class="stat-label">خلال ${stats.totalDays} يوم</span>
+                <span class="stat-label">${window.t ? window.t('stats.inDays', {ns: 'results'}) : 'خلال'} ${stats.totalDays} ${window.t ? window.t('day', {ns: 'common'}) : 'يوم'}</span>
             </div>
         </div>
         <div class="stat-card gradient-orange">
             <div class="stat-icon"><i class="fas fa-hand-holding-usd"></i></div>
             <div class="stat-content">
-                <h3>السحوبات النقدية</h3>
+                <h3>${window.t ? window.t('stats.totalCashOut', {ns: 'results'}) : 'السحوبات النقدية'}</h3>
                 <p class="stat-value">$${stats.totalCashOut.toLocaleString()}</p>
-                <span class="stat-label">متاح للسحب</span>
+                <span class="stat-label">${window.t ? window.t('stats.availableForWithdrawal', {ns: 'results'}) : 'متاح للسحب'}</span>
             </div>
         </div>
         <div class="stat-card gradient-pink">
             <div class="stat-icon"><i class="fas fa-recycle"></i></div>
             <div class="stat-content">
-                <h3>إعادة الاستثمار</h3>
+                <h3>${window.t ? window.t('stats.totalReinvested', {ns: 'results'}) : 'إعادة الاستثمار'}</h3>
                 <p class="stat-value">$${stats.totalReinvested.toLocaleString()}</p>
-                <span class="stat-label">أُعيد استثماره</span>
+                <span class="stat-label">${window.t ? window.t('stats.reinvested', {ns: 'results'}) : 'أُعيد استثماره'}</span>
             </div>
         </div>
         <div class="stat-card gradient-red">
             <div class="stat-icon"><i class="fas fa-receipt"></i></div>
             <div class="stat-content">
-                <h3>المصاريف</h3>
+                <h3>${window.t ? window.t('stats.totalExpenses', {ns: 'results'}) : 'المصاريف'}</h3>
                 <p class="stat-value">$${stats.totalExpenses.toLocaleString()}</p>
-                <span class="stat-label">مصاريف شهرية</span>
+                <span class="stat-label">${window.t ? window.t('stats.monthlyExpenses', {ns: 'results'}) : 'مصاريف شهرية'}</span>
             </div>
         </div>
         <div class="stat-card gradient-teal">
             <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
             <div class="stat-content">
-                <h3>متوسط الربح الشهري</h3>
+                <h3>${window.t ? window.t('stats.avgMonthlyProfit', {ns: 'results'}) : 'متوسط الربح الشهري'}</h3>
                 <p class="stat-value">$${stats.avgMonthlyProfit.toLocaleString()}</p>
-                <span class="stat-label">لكل شهر</span>
+                <span class="stat-label">${window.t ? window.t('stats.perMonth', {ns: 'results'}) : 'لكل شهر'}</span>
             </div>
         </div>
         <div class="stat-card gradient-indigo">
             <div class="stat-icon"><i class="fas fa-percent"></i></div>
             <div class="stat-content">
-                <h3>متوسط النمو الشهري</h3>
+                <h3>${window.t ? window.t('stats.avgMonthlyGrowth', {ns: 'results'}) : 'متوسط النمو الشهري'}</h3>
                 <p class="stat-value">${stats.avgMonthlyGrowth}%</p>
-                <span class="stat-label">نمو شهري</span>
+                <span class="stat-label">${window.t ? window.t('stats.monthlyGrowth', {ns: 'results'}) : 'نمو شهري'}</span>
             </div>
         </div>
     `;
 
     // عرض جدول البيانات الشهرية
-    tableBody.innerHTML = data.monthlyData.map(row => `
+    tableBody.innerHTML = data.monthlyData.map((row, index) => `
         <tr>
-            <td><strong>${row.month}</strong></td>
+            <td><strong>${window.t ? window.t('results:tables.monthLabel', {month: index + 1}) : `Month ${index + 1}`}</strong></td>
             <td class="text-success">$${row.earnings.toLocaleString()}</td>
             <td class="text-info">$${row.reinvest.toLocaleString()}</td>
             <td class="text-warning">$${row.cashOut.toLocaleString()}</td>
@@ -386,7 +394,7 @@ function displayResults(data) {
     if (data.dailyData && data.dailyData.length > 0) {
         dailyTableBody.innerHTML = data.dailyData.map(row => `
             <tr>
-                <td><strong>اليوم ${row.day}</strong></td>
+                <td><strong>${window.t ? window.t('results:tables.dayLabel', {day: row.day}) : `Day ${row.day}`}</strong></td>
                 <td class="text-success">$${row.profit.toLocaleString()}</td>
                 <td class="text-warning">$${row.cashout.toLocaleString()}</td>
                 <td class="text-primary"><strong>$${row.balance.toLocaleString()}</strong></td>
@@ -415,7 +423,13 @@ function displayRiskRatio(stats) {
 
     const riskValue = stats.riskRatio || 0;
     riskRatioValue.textContent = riskValue.toFixed(2);
-    riskLevelText.textContent = stats.riskLevel || 'منخفضة جداً';
+    // Use translation system for risk level
+    if (window.t && stats.riskLevel) {
+        const riskLevelKey = `results:risk.levels.${stats.riskLevel}`;
+        riskLevelText.textContent = window.t(riskLevelKey) || stats.riskLevel;
+    } else {
+        riskLevelText.textContent = stats.riskLevel || 'منخفضة جداً';
+    }
 
     // تحديث لون البطاقة حسب مستوى الخطورة
     riskCircle.className = 'risk-circle';
@@ -447,14 +461,23 @@ function displayRiskRatio(stats) {
     }
 
     riskCircle.classList.add(colorClass);
-    riskDescription.innerHTML = `<strong>${emoji} ${stats.riskLevel}</strong><br>${descriptionText}`;
+    // Use translation system for risk description
+    let translatedDescription = descriptionText;
+    if (window.t && stats.riskLevel) {
+        const riskDescKey = `results:risk.descriptions.${stats.riskLevel}`;
+        translatedDescription = window.t(riskDescKey) || descriptionText;
+    }
+    
+    riskDescription.innerHTML = `<strong>${emoji} ${stats.riskLevel}</strong><br>${translatedDescription}`;
 
     console.log('Risk Ratio Updated:', { riskValue, riskLevel: stats.riskLevel, colorClass });
 }
 
 // دالة إنشاء الرسوم البيانية
 function createCharts(data) {
-    const months = data.monthlyData.map(d => d.month);
+    const months = data.monthlyData.map((d, index) => 
+        window.t ? window.t('results:tables.monthLabel', {month: index + 1}) : `Month ${index + 1}`
+    );
     const balanceData = data.monthlyData.map(d => d.balance);
     const earningsData = data.monthlyData.map(d => d.earnings);
     const cashOutData = data.monthlyData.map(d => d.cashOut);
@@ -475,7 +498,7 @@ function createCharts(data) {
                 labels: months,
                 datasets: [
                     {
-                        label: 'الرصيد',
+                        label: window.t ? window.t('results:charts.balance') : 'الرصيد',
                         data: balanceData,
                         borderColor: '#667eea',
                         backgroundColor: 'rgba(102, 126, 234, 0.1)',
@@ -489,7 +512,7 @@ function createCharts(data) {
                         pointBorderWidth: 2
                     },
                     {
-                        label: 'الأرباح الشهرية',
+                        label: window.t ? window.t('results:charts.monthlyEarnings') : 'الأرباح الشهرية',
                         data: earningsData,
                         borderColor: '#10b981',
                         backgroundColor: 'rgba(16, 185, 129, 0.1)',

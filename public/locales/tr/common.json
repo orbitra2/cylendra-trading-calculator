@@ -1,0 +1,44 @@
+{
+  "app": {
+    "title": "Akıllı Trading Hesaplayıcısı",
+    "subtitle": "Gelecekteki kârlarınızı profesyonel doğrulukla hesaplayın",
+    "description": "Yeniden yatırım ve aylık giderlerle getiri hesaplama için gelişmiş araç"
+  },
+  "navigation": {
+    "calculator": "Hesaplayıcı",
+    "results": "Sonuçlar",
+    "guide": "Kullanım Kılavuzu"
+  },
+  "buttons": {
+    "calculate": "Kârları Şimdi Hesapla",
+    "calculating": "Hesaplanıyor...",
+    "print": "Yazdır",
+    "copy": "Kopyala",
+    "share": "Paylaş"
+  },
+  "footer": {
+    "copyright": "Tüm hakları saklıdır",
+    "disclaimer": "Uyarı: Bu hesaplamalar tahminidir ve gerçek kâr garantisi vermez. Trading risk içerir."
+  },
+  "day": "gün",
+  "calculationFailed": "Hesaplama başarısız",
+  "calculationError": "Hesaplama hatası oluştu",
+  "stats": {
+    "finalBalance": "Son Bakiye",
+    "fromInitial": "den",
+    "netProfit": "Net Kâr",
+    "roi": "ROI",
+    "totalEarnings": "Toplam Kazanç",
+    "inDays": "günde",
+    "totalCashOut": "Nakit Çekimler",
+    "availableForWithdrawal": "Çekim için mevcut",
+    "totalReinvested": "Yeniden Yatırılan",
+    "reinvested": "yeniden yatırıldı",
+    "totalExpenses": "Giderler",
+    "monthlyExpenses": "aylık giderler",
+    "avgMonthlyProfit": "Ortalama Aylık Kâr",
+    "perMonth": "aylık",
+    "avgMonthlyGrowth": "Ortalama Aylık Büyüme",
+    "monthlyGrowth": "aylık büyüme"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "stats": {
+    "finalBalance": "Son Bakiye",
+    "netProfit": "Net Kâr",
+    "totalEarnings": "Toplam Kazanç",
+    "totalCashOut": "Nakit Çekimler",
+    "totalReinvested": "Yeniden Yatırılan",
+    "totalExpenses": "Giderler",
+    "avgMonthlyProfit": "Ortalama Aylık Kâr",
+    "avgMonthlyGrowth": "Ortalama Aylık Büyüme",
+    "fromInitial": "den",
+    "roi": "ROI",
+    "inDays": "günde",
+    "availableForWithdrawal": "Çekim için mevcut",
+    "reinvested": "yeniden yatırıldı",
+    "monthlyExpenses": "aylık giderler",
+    "perMonth": "aylık",
+    "monthlyGrowth": "aylık büyüme"
+  },
+  "risk": {
+    "title": "Risk Değerlendirmesi",
+    "level": "Risk Seviyesi:",
+    "levels": {
+      "veryLow": "Çok Düşük",
+      "low": "Düşük",
+      "medium": "Orta",
+      "high": "Yüksek",
+      "veryHigh": "Çok Yüksek"
+    },
+    "descriptions": {
+      "veryLow": "Çok düşük risk - Büyük sermaye ve sınırlı kârlarla çok güvenli strateji. Muhafazakârlar için uygun.",
+      "low": "Düşük risk - Yeni başlayanlar için güvenli ve güvenilir strateji. Sınırlı risklerle istikrarlı büyüme.",
+      "medium": "Orta risk - Büyüme ve güvenlik arasında makul denge. Düzenli izleme gerektirir.",
+      "high": "Yüksek risk - Deneyim ve risk toleransı gerektiren agresif strateji. Büyük kayıplara yol açabilir.",
+      "veryHigh": "Çok yüksek risk - Çok riskli strateji. Yeni başlayanlara önerilmez. Büyük kayıplara dikkat edin."
+    }
+  },
+  "charts": {
+    "balanceAndEarnings": "Bakiye ve Kazanç Gelişimi",
+    "earningsDistribution": "Kazanç Dağılımı",
+    "monthlyROI": "Aylık ROI",
+    "balance": "Bakiye",
+    "monthlyEarnings": "Aylık Kazançlar",
+    "cashOut": "Nakit Çekimler",
+    "reinvest": "Yeniden Yatırım",
+    "expenses": "Giderler",
+    "monthlyROI": "Aylık ROI %"
+  },
+  "tables": {
+    "monthlyDetails": "Aylık Detaylar",
+    "dailyDetails": "Günlük Detaylar (İlk 90 gün)",
+    "monthLabel": "Ay {{month}}",
+    "dayLabel": "Gün {{day}}",
+    "headers": {
+      "month": "Ay",
+      "earnings": "Kazançlar",
+      "reinvest": "Yeniden Yatırım",
+      "cashOut": "Nakit Çekim",
+      "expenses": "Giderler",
+      "balance": "Bakiye",
+      "roi": "ROI",
+      "day": "Gün",
+      "dailyProfit": "Günlük Kâr"
+    }
+  }
+}

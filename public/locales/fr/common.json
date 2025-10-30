@@ -1,0 +1,44 @@
+{
+  "app": {
+    "title": "Calculateur de Trading Intelligent",
+    "subtitle": "Calculez vos profits futurs avec une précision professionnelle",
+    "description": "Outil avancé pour calculer les rendements avec réinvestissement et dépenses mensuelles"
+  },
+  "navigation": {
+    "calculator": "Calculateur",
+    "results": "Résultats",
+    "guide": "Guide d'utilisation"
+  },
+  "buttons": {
+    "calculate": "Calculer les profits maintenant",
+    "calculating": "Calcul en cours...",
+    "print": "Imprimer",
+    "copy": "Copier",
+    "share": "Partager"
+  },
+  "footer": {
+    "copyright": "Tous droits réservés",
+    "disclaimer": "Avertissement: Ces calculs sont des estimations et ne garantissent pas de profits réels. Le trading comporte des risques."
+  },
+  "day": "jour",
+  "calculationFailed": "Calcul échoué",
+  "calculationError": "Erreur de calcul survenue",
+  "stats": {
+    "finalBalance": "Solde final",
+    "fromInitial": "de",
+    "netProfit": "Profit net",
+    "roi": "ROI",
+    "totalEarnings": "Gains totaux",
+    "inDays": "en",
+    "totalCashOut": "Retraits en espèces",
+    "availableForWithdrawal": "Disponible pour retrait",
+    "totalReinvested": "Réinvesti",
+    "reinvested": "réinvesti",
+    "totalExpenses": "Dépenses",
+    "monthlyExpenses": "dépenses mensuelles",
+    "avgMonthlyProfit": "Profit mensuel moyen",
+    "perMonth": "par mois",
+    "avgMonthlyGrowth": "Croissance mensuelle moyenne",
+    "monthlyGrowth": "croissance mensuelle"
+  }
+}

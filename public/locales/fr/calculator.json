@@ -1,0 +1,69 @@
+{
+  "title": "Paramètres de calcul",
+  "fields": {
+    "principal": {
+      "label": "Capital initial",
+      "tooltip": "Le montant avec lequel vous commencerez à trader",
+      "suffix": "$"
+    },
+    "profitMode": {
+      "label": "Méthode de calcul du profit",
+      "tooltip": "Choisissez comment calculer le profit par trade",
+      "fixed": "Profit fixe",
+      "percentage": "Pourcentage"
+    },
+    "profitPerTrade": {
+      "label": "Profit par trade",
+      "tooltip": "Profit attendu de chaque transaction de trading en dollars",
+      "suffix": "$"
+    },
+    "dailyProfitPercentage": {
+      "label": "Pourcentage de profit quotidien du capital",
+      "tooltip": "Pourcentage du capital que vous voulez gagner quotidiennement",
+      "suffix": "%",
+      "calculation": "Profit quotidien = Capital × Pourcentage ÷ Nombre de trades",
+      "example": "Exemple: Le profit par trade sera"
+    },
+    "tradesPerDay": {
+      "label": "Nombre de trades quotidiens",
+      "tooltip": "Nombre de trades que vous exécuterez par jour"
+    },
+    "reinvestPercent": {
+      "label": "Pourcentage de réinvestissement",
+      "tooltip": "Pourcentage des profits que vous réinvestirez",
+      "suffix": "%"
+    },
+    "workDaysPerWeek": {
+      "label": "Jours de travail par semaine",
+      "tooltip": "Nombre de jours de trading par semaine (5 = lundi à vendredi)",
+      "options": {
+        "5": "5 jours (lundi - vendredi)",
+        "6": "6 jours",
+        "7": "7 jours (toute la semaine)"
+      }
+    },
+    "monthlyExpenses": {
+      "label": "Dépenses mensuelles",
+      "tooltip": "Dépenses qui seront déduites de vos profits mensuels",
+      "suffix": "$"
+    },
+    "days": {
+      "label": "Période de temps",
+      "tooltip": "Nombre de jours pour lesquels vous voulez calculer les profits",
+      "quickOptions": {
+        "30": "Mois",
+        "90": "3 mois",
+        "180": "6 mois",
+        "365": "Année",
+        "730": "2 ans"
+      }
+    }
+  },
+  "validation": {
+    "principalRequired": "Le capital doit être supérieur à zéro",
+    "profitPerTradeRequired": "Le profit par trade doit être supérieur à zéro",
+    "percentageRequired": "Le pourcentage doit être supérieur à zéro",
+    "tradesPerDayRequired": "Le nombre de trades doit être supérieur à zéro",
+    "daysRequired": "Le nombre de jours doit être supérieur à zéro"
+  }
+}

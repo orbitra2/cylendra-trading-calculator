@@ -1,0 +1,44 @@
+{
+  "app": {
+    "title": "Smart Trading Calculator",
+    "subtitle": "Calculate your future profits with professional accuracy",
+    "description": "Advanced tool for calculating returns with reinvestment and monthly expenses"
+  },
+  "navigation": {
+    "calculator": "Calculator",
+    "results": "Results",
+    "guide": "User Guide"
+  },
+  "buttons": {
+    "calculate": "Calculate Profits Now",
+    "calculating": "Calculating...",
+    "print": "Print",
+    "copy": "Copy",
+    "share": "Share"
+  },
+  "footer": {
+    "copyright": "All rights reserved",
+    "disclaimer": "Disclaimer: These calculations are estimates and do not guarantee actual profits. Trading involves risks."
+  },
+  "day": "day",
+  "calculationFailed": "Calculation failed",
+  "calculationError": "Calculation error occurred",
+  "stats": {
+    "finalBalance": "Final Balance",
+    "fromInitial": "from",
+    "netProfit": "Net Profit",
+    "roi": "ROI",
+    "totalEarnings": "Total Earnings",
+    "inDays": "in",
+    "totalCashOut": "Cash Withdrawals",
+    "availableForWithdrawal": "Available for withdrawal",
+    "totalReinvested": "Reinvested",
+    "reinvested": "reinvested",
+    "totalExpenses": "Expenses",
+    "monthlyExpenses": "monthly expenses",
+    "avgMonthlyProfit": "Average Monthly Profit",
+    "perMonth": "per month",
+    "avgMonthlyGrowth": "Average Monthly Growth",
+    "monthlyGrowth": "monthly growth"
+  }
+}

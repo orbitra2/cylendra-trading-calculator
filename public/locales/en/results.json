@@ -1,0 +1,66 @@
+{
+  "stats": {
+    "finalBalance": "Final Balance",
+    "netProfit": "Net Profit",
+    "totalEarnings": "Total Earnings",
+    "totalCashOut": "Cash Withdrawals",
+    "totalReinvested": "Reinvested",
+    "totalExpenses": "Expenses",
+    "avgMonthlyProfit": "Average Monthly Profit",
+    "avgMonthlyGrowth": "Average Monthly Growth",
+    "fromInitial": "from",
+    "roi": "ROI",
+    "inDays": "in",
+    "availableForWithdrawal": "Available for withdrawal",
+    "reinvested": "reinvested",
+    "monthlyExpenses": "monthly expenses",
+    "perMonth": "per month",
+    "monthlyGrowth": "monthly growth"
+  },
+  "risk": {
+    "title": "Risk Assessment",
+    "level": "Risk Level:",
+    "levels": {
+      "veryLow": "Very Low",
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "veryHigh": "Very High"
+    },
+    "descriptions": {
+      "veryLow": "Very low risk - Very safe strategy with large capital and limited profits. Suitable for conservatives.",
+      "low": "Low risk - Safe and reliable strategy for beginners. Stable growth with limited risks.",
+      "medium": "Medium risk - Reasonable balance between growth and safety. Requires regular monitoring.",
+      "high": "High risk - Aggressive strategy requiring experience and risk tolerance. May lead to large losses.",
+      "veryHigh": "Very high risk - Very risky strategy. Not recommended for beginners. Beware of large losses."
+    }
+  },
+  "charts": {
+    "balanceAndEarnings": "Balance and Earnings Evolution",
+    "earningsDistribution": "Earnings Distribution",
+    "monthlyROI": "Monthly ROI",
+    "balance": "Balance",
+    "monthlyEarnings": "Monthly Earnings",
+    "cashOut": "Cash Withdrawals",
+    "reinvest": "Reinvestment",
+    "expenses": "Expenses",
+    "monthlyROI": "Monthly ROI %"
+  },
+  "tables": {
+    "monthlyDetails": "Monthly Details",
+    "dailyDetails": "Daily Details (First 90 days)",
+    "monthLabel": "Month {{month}}",
+    "dayLabel": "Day {{day}}",
+    "headers": {
+      "month": "Month",
+      "earnings": "Earnings",
+      "reinvest": "Reinvestment",
+      "cashOut": "Cash Out",
+      "expenses": "Expenses",
+      "balance": "Balance",
+      "roi": "ROI",
+      "day": "Day",
+      "dailyProfit": "Daily Profit"
+    }
+  }
+}

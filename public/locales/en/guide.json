@@ -1,0 +1,39 @@
+{
+  "title": "User Guide",
+  "steps": {
+    "1": {
+      "title": "Enter Initial Capital",
+      "description": "The amount you will start trading with"
+    },
+    "2": {
+      "title": "Set Expected Profit per Trade",
+      "description": "Average profit you expect from each trading transaction"
+    },
+    "3": {
+      "title": "Choose Daily Number of Trades",
+      "description": "How many trades you plan to execute daily"
+    },
+    "4": {
+      "title": "Adjust Reinvestment Percentage",
+      "description": "Percentage of profits you will reinvest to increase capital"
+    },
+    "5": {
+      "title": "Calculate Monthly Expenses",
+      "description": "Any fixed expenses that will be deducted from your monthly profits"
+    }
+  },
+  "tips": {
+    "smartTip": {
+      "title": "Smart Tip",
+      "description": "Start with a 50% reinvestment rate to achieve a balance between growth and cash profits"
+    },
+    "riskManagement": {
+      "title": "Risk Management",
+      "description": "Don't forget to calculate monthly expenses for realistic projections"
+    },
+    "compoundGrowth": {
+      "title": "Compound Growth",
+      "description": "Reinvestment helps achieve exponential capital growth in the long term"
+    }
+  }
+}

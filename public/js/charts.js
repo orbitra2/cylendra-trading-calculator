@@ -1,7 +1,9 @@
 // دالة تحديث الرسوم البيانية
 window.updateCharts = function(data) {
     // إعداد البيانات
-    const months = data.monthlyData.map(d => d.month);
+    const months = data.monthlyData.map((d, index) => 
+        window.t ? window.t('results:tables.monthLabel', {month: index + 1}) : `Month ${index + 1}`
+    );
     const balanceData = data.monthlyData.map(d => d.balance);
     const earningsData = data.monthlyData.map(d => d.earnings);
     const cashOutData = data.monthlyData.map(d => d.cashOut);
@@ -17,7 +19,7 @@ window.updateCharts = function(data) {
                 labels: months,
                 datasets: [
                     {
-                        label: 'الرصيد',
+                        label: window.t ? window.t('results:charts.balance') : 'الرصيد',
                         data: balanceData,
                         borderColor: '#667eea',
                         backgroundColor: 'rgba(102, 126, 234, 0.1)',
@@ -31,7 +33,7 @@ window.updateCharts = function(data) {
                         pointBorderWidth: 2
                     },
                     {
-                        label: 'الأرباح الشهرية',
+                        label: window.t ? window.t('results:charts.monthlyEarnings') : 'الأرباح الشهرية',
                         data: earningsData,
                         borderColor: '#10b981',
                         backgroundColor: 'rgba(16, 185, 129, 0.1)',
@@ -138,12 +140,16 @@ window.updateCharts = function(data) {
         new Chart(pieChartCtx, {
             type: 'doughnut',
             data: {
-                labels: ['إعادة الاستثمار', 'السحوبات النقدية', 'المصاريف'],
+                labels: [
+                    window.t ? window.t('results:charts.reinvest') : 'إعادة الاستثمار',
+                    window.t ? window.t('results:charts.cashOut') : 'السحوبات النقدية',
+                    window.t ? window.t('results:charts.expenses') : 'المصاريف'
+                ],
                 datasets: [{
                     data: [
-                        chartData.summary.totalReinvested,
-                        chartData.summary.totalCashOut,
-                        chartData.summary.totalExpenses
+                        data.summary.totalReinvested,
+                        data.summary.totalCashOut,
+                        data.summary.totalExpenses
                     ],
                     backgroundColor: [
                         'rgba(102, 126, 234, 0.8)',
@@ -210,7 +216,7 @@ window.updateCharts = function(data) {
             data: {
                 labels: months,
                 datasets: [{
-                    label: 'نسبة العائد (%)',
+                    label: window.t ? window.t('results:charts.monthlyROI') : 'نسبة العائد (%)',
                     data: roiData,
                     backgroundColor: roiData.map(value => {
                         if (value >= 100) return 'rgba(16, 185, 129, 0.8)';
@@ -250,7 +256,8 @@ window.updateCharts = function(data) {
                         cornerRadius: 8,
                         callbacks: {
                             label: function(context) {
-                                return 'نسبة العائد: ' + context.parsed.y.toFixed(2) + '%';
+                                const roiLabel = window.t ? window.t('results:charts.monthlyROI') : 'نسبة العائد';
+                                return roiLabel + ': ' + context.parsed.y.toFixed(2) + '%';
                             }
                         }
                     }

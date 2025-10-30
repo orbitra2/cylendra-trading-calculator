@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html dir="rtl" lang="ar">
+<html dir="<%= language === 'ar' ? 'rtl' : 'ltr' %>" lang="<%= language || 'ar' %>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حاسبة التداول الذكية - Trading Calculator Pro</title>
+    <title data-i18n="app.title" data-i18n-ns="common">حاسبة التداول الذكية - Trading Calculator Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <link rel="stylesheet" href="/css/style.css">
+    <script>
+        // تعيين اللغة من الخادم
+        window.initialLanguage = '<%= language || "ar" %>';
+    </script>
+    <script src="/js/i18n.js"></script>
 </head>
 <body>
     <!-- شريط التنقل -->
@@ -15,18 +20,27 @@
         <div class="container">
             <div class="nav-brand">
                 <i class="fas fa-chart-line"></i>
-                <span>حاسبة التداول الذكية</span>
+                <span data-i18n="app.title" data-i18n-ns="common">حاسبة التداول الذكية</span>
             </div>
             <div class="nav-links">
                 <a href="#calculator" class="nav-link active">
-                    <i class="fas fa-calculator"></i> الحاسبة
+                    <i class="fas fa-calculator"></i> <span data-i18n="navigation.calculator" data-i18n-ns="common">الحاسبة</span>
                 </a>
                 <a href="#results" class="nav-link">
-                    <i class="fas fa-chart-bar"></i> النتائج
+                    <i class="fas fa-chart-bar"></i> <span data-i18n="navigation.results" data-i18n-ns="common">النتائج</span>
                 </a>
                 <a href="#guide" class="nav-link">
-                    <i class="fas fa-book"></i> دليل الاستخدام
+                    <i class="fas fa-book"></i> <span data-i18n="navigation.guide" data-i18n-ns="common">دليل الاستخدام</span>
                 </a>
+                <div class="language-selector">
+                    <select id="languageSelector" class="language-select" title="اختر اللغة / Choose Language">
+                        <option value="ar">🇸🇦 العربية</option>
+                        <option value="en">🇺🇸 English</option>
+                        <option value="ru">🇷🇺 Русский</option>
+                        <option value="fr">🇫🇷 Français</option>
+                        <option value="tr">🇹🇷 Türkçe</option>
+                    </select>
+                </div>
             </div>
         </div>
     </nav>
@@ -36,9 +50,9 @@
         <div class="container">
             <h1 class="hero-title">
                 <i class="fas fa-rocket"></i>
-                احسب أرباحك المستقبلية بدقة احترافية
+                <span data-i18n="app.subtitle" data-i18n-ns="common">احسب أرباحك المستقبلية بدقة احترافية</span>
             </h1>
-            <p class="hero-subtitle">
+            <p class="hero-subtitle" data-i18n="app.description" data-i18n-ns="common">
                 أداة متقدمة لحساب العوائد مع إعادة الاستثمار والمصاريف الشهرية
             </p>
         </div>
@@ -53,7 +67,7 @@
                     <div class="card-header">
                         <h2>
                             <i class="fas fa-sliders-h"></i>
-                            إعدادات الحساب
+                            <span data-i18n="title" data-i18n-ns="calculator">إعدادات الحساب</span>
                         </h2>
                     </div>
                     <div class="card-body">
@@ -62,8 +76,8 @@
                             <div class="form-group">
                                 <label class="form-label">
                                     <i class="fas fa-dollar-sign icon-label"></i>
-                                    رأس المال الأساسي
-                                    <span class="tooltip-icon" title="المبلغ الذي ستبدأ به التداول">
+                                    <span data-i18n="fields.principal.label" data-i18n-ns="calculator">رأس المال الأساسي</span>
+                                    <span class="tooltip-icon" data-i18n-title="fields.principal.tooltip" data-i18n-ns="calculator" title="المبلغ الذي ستبدأ به التداول">
                                         <i class="fas fa-info-circle"></i>
                                     </span>
                                 </label>
@@ -86,19 +100,19 @@
                             <div class="form-group">
                                 <label class="form-label">
                                     <i class="fas fa-coins icon-label"></i>
-                                    طريقة حساب الربح
-                                    <span class="tooltip-icon" title="اختر طريقة حساب الربح لكل صفقة">
+                                    <span data-i18n="fields.profitMode.label" data-i18n-ns="calculator">طريقة حساب الربح</span>
+                                    <span class="tooltip-icon" data-i18n-title="fields.profitMode.tooltip" data-i18n-ns="calculator" title="اختر طريقة حساب الربح لكل صفقة">
                                         <i class="fas fa-info-circle"></i>
                                     </span>
                                 </label>
                                 <div class="profit-mode-tabs">
                                     <button type="button" class="profit-mode-btn active" data-mode="fixed">
                                         <i class="fas fa-dollar-sign"></i>
-                                        ربح ثابت
+                                        <span data-i18n="fields.profitMode.fixed" data-i18n-ns="calculator">ربح ثابت</span>
                                     </button>
                                     <button type="button" class="profit-mode-btn" data-mode="percentage">
                                         <i class="fas fa-percent"></i>
-                                        نسبة مئوية
+                                        <span data-i18n="fields.profitMode.percentage" data-i18n-ns="calculator">نسبة مئوية</span>
                                     </button>
                                 </div>
                             </div>
@@ -107,8 +121,8 @@
                             <div class="form-group profit-mode-group" id="fixedProfitGroup">
                                 <label class="form-label">
                                     <i class="fas fa-coins icon-label"></i>
-                                    الربح لكل صفقة
-                                    <span class="tooltip-icon" title="الربح المتوقع من كل صفقة تداول بالدولار">
+                                    <span data-i18n="fields.profitPerTrade.label" data-i18n-ns="calculator">الربح لكل صفقة</span>
+                                    <span class="tooltip-icon" data-i18n-title="fields.profitPerTrade.tooltip" data-i18n-ns="calculator" title="الربح المتوقع من كل صفقة تداول بالدولار">
                                         <i class="fas fa-info-circle"></i>
                                     </span>
                                 </label>
@@ -131,8 +145,8 @@
                             <div class="form-group profit-mode-group" id="percentageProfitGroup" style="display: none;">
                                 <label class="form-label">
                                     <i class="fas fa-percent icon-label"></i>
-                                    نسبة الربح اليومي من رأس المال
-                                    <span class="tooltip-icon" title="النسبة المئوية من رأس المال التي تريد ربحها يومياً">
+                                    <span data-i18n="fields.dailyProfitPercentage.label" data-i18n-ns="calculator">نسبة الربح اليومي من رأس المال</span>
+                                    <span class="tooltip-icon" data-i18n-title="fields.dailyProfitPercentage.tooltip" data-i18n-ns="calculator" title="النسبة المئوية من رأس المال التي تريد ربحها يومياً">
                                         <i class="fas fa-info-circle"></i>
                                     </span>
                                 </label>
@@ -152,10 +166,10 @@
                                 <div class="profit-calculation-info">
                                     <p>
                                         <i class="fas fa-info-circle"></i>
-                                        الربح اليومي = رأس المال × النسبة ÷ عدد الصفقات
+                                        <span data-i18n="fields.dailyProfitPercentage.calculation" data-i18n-ns="calculator">الربح اليومي = رأس المال × النسبة ÷ عدد الصفقات</span>
                                     </p>
                                     <p id="profitCalculationDisplay" class="calculation-result">
-                                        مثال: سيكون الربح لكل صفقة <strong>$2.00</strong>
+                                        <span data-i18n="fields.dailyProfitPercentage.example" data-i18n-ns="calculator">مثال: سيكون الربح لكل صفقة</span> <strong>$2.00</strong>
                                     </p>
                                 </div>
                             </div>
@@ -164,8 +178,8 @@
                             <div class="form-group">
                                 <label class="form-label">
                                     <i class="fas fa-exchange-alt icon-label"></i>
-                                    عدد الصفقات اليومية
-                                    <span class="tooltip-icon" title="عدد الصفقات التي تنفذها في اليوم الواحد">
+                                    <span data-i18n="fields.tradesPerDay.label" data-i18n-ns="calculator">عدد الصفقات اليومية</span>
+                                    <span class="tooltip-icon" data-i18n-title="fields.tradesPerDay.tooltip" data-i18n-ns="calculator" title="عدد الصفقات التي تنفذها في اليوم الواحد">
                                         <i class="fas fa-info-circle"></i>
                                     </span>
                                 </label>
@@ -184,8 +198,8 @@
                             <div class="form-group">
                                 <label class="form-label">
                                     <i class="fas fa-percent icon-label"></i>
-                                    نسبة إعادة الاستثمار
-                                    <span class="tooltip-icon" title="النسبة المئوية من الأرباح التي ستعيد استثمارها">
+                                    <span data-i18n="fields.reinvestPercent.label" data-i18n-ns="calculator">نسبة إعادة الاستثمار</span>
+                                    <span class="tooltip-icon" data-i18n-title="fields.reinvestPercent.tooltip" data-i18n-ns="calculator" title="النسبة المئوية من الأرباح التي ستعيد استثمارها">
                                         <i class="fas fa-info-circle"></i>
                                     </span>
                                 </label>
@@ -210,15 +224,15 @@
                             <div class="form-group">
                                 <label class="form-label">
                                     <i class="fas fa-calendar-week icon-label"></i>
-                                    أيام العمل في الأسبوع
-                                    <span class="tooltip-icon" title="عدد أيام التداول في الأسبوع (5 = من الإثنين للجمعة)">
+                                    <span data-i18n="fields.workDaysPerWeek.label" data-i18n-ns="calculator">أيام العمل في الأسبوع</span>
+                                    <span class="tooltip-icon" data-i18n-title="fields.workDaysPerWeek.tooltip" data-i18n-ns="calculator" title="عدد أيام التداول في الأسبوع (5 = من الإثنين للجمعة)">
                                         <i class="fas fa-info-circle"></i>
                                     </span>
                                 </label>
                                 <select name="workDaysPerWeek" id="workDaysPerWeek" class="form-select">
-                                    <option value="5">5 أيام (الإثنين - الجمعة)</option>
-                                    <option value="6">6 أيام</option>
-                                    <option value="7">7 أيام (طوال الأسبوع)</option>
+                                    <option value="5" data-i18n="fields.workDaysPerWeek.options.5" data-i18n-ns="calculator">5 أيام (الإثنين - الجمعة)</option>
+                                    <option value="6" data-i18n="fields.workDaysPerWeek.options.6" data-i18n-ns="calculator">6 أيام</option>
+                                    <option value="7" data-i18n="fields.workDaysPerWeek.options.7" data-i18n-ns="calculator">7 أيام (طوال الأسبوع)</option>
                                 </select>
                             </div>
 
@@ -226,8 +240,8 @@
                             <div class="form-group">
                                 <label class="form-label">
                                     <i class="fas fa-receipt icon-label"></i>
-                                    المصاريف الشهرية
-                                    <span class="tooltip-icon" title="المصاريف التي سيتم خصمها من أرباحك شهرياً">
+                                    <span data-i18n="fields.monthlyExpenses.label" data-i18n-ns="calculator">المصاريف الشهرية</span>
+                                    <span class="tooltip-icon" data-i18n-title="fields.monthlyExpenses.tooltip" data-i18n-ns="calculator" title="المصاريف التي سيتم خصمها من أرباحك شهرياً">
                                         <i class="fas fa-info-circle"></i>
                                     </span>
                                 </label>
@@ -249,17 +263,17 @@
                             <div class="form-group">
                                 <label class="form-label">
                                     <i class="fas fa-calendar-alt icon-label"></i>
-                                    المدة الزمنية
-                                    <span class="tooltip-icon" title="عدد الأيام التي تريد حساب الأرباح لها">
+                                    <span data-i18n="fields.days.label" data-i18n-ns="calculator">المدة الزمنية</span>
+                                    <span class="tooltip-icon" data-i18n-title="fields.days.tooltip" data-i18n-ns="calculator" title="عدد الأيام التي تريد حساب الأرباح لها">
                                         <i class="fas fa-info-circle"></i>
                                     </span>
                                 </label>
                                 <div class="days-options">
-                                    <button type="button" class="day-btn" data-days="30">شهر</button>
-                                    <button type="button" class="day-btn" data-days="90">3 أشهر</button>
-                                    <button type="button" class="day-btn" data-days="180">6 أشهر</button>
-                                    <button type="button" class="day-btn" data-days="365">سنة</button>
-                                    <button type="button" class="day-btn" data-days="730">سنتان</button>
+                                    <button type="button" class="day-btn" data-days="30" data-i18n="fields.days.quickOptions.30" data-i18n-ns="calculator">شهر</button>
+                                    <button type="button" class="day-btn" data-days="90" data-i18n="fields.days.quickOptions.90" data-i18n-ns="calculator">3 أشهر</button>
+                                    <button type="button" class="day-btn" data-days="180" data-i18n="fields.days.quickOptions.180" data-i18n-ns="calculator">6 أشهر</button>
+                                    <button type="button" class="day-btn" data-days="365" data-i18n="fields.days.quickOptions.365" data-i18n-ns="calculator">سنة</button>
+                                    <button type="button" class="day-btn" data-days="730" data-i18n="fields.days.quickOptions.730" data-i18n-ns="calculator">سنتان</button>
                                 </div>
                                 <input 
                                     type="number" 
@@ -275,7 +289,7 @@
                             <!-- زر الحساب -->
                             <button type="submit" class="btn btn-primary btn-large">
                                 <i class="fas fa-calculator"></i>
-                                احسب الأرباح الآن
+                                <span data-i18n="buttons.calculate" data-i18n-ns="common">احسب الأرباح الآن</span>
                             </button>
                         </form>
                     </div>
@@ -287,24 +301,24 @@
                         <div class="info-icon">
                             <i class="fas fa-lightbulb"></i>
                         </div>
-                        <h3>نصيحة ذكية</h3>
-                        <p>ابدأ بنسبة إعادة استثمار 50% لتحقيق توازن بين النمو والأرباح النقدية</p>
+                        <h3 data-i18n="tips.smartTip.title" data-i18n-ns="guide">نصيحة ذكية</h3>
+                        <p data-i18n="tips.smartTip.description" data-i18n-ns="guide">ابدأ بنسبة إعادة استثمار 50% لتحقيق توازن بين النمو والأرباح النقدية</p>
                     </div>
 
                     <div class="info-card">
                         <div class="info-icon">
                             <i class="fas fa-shield-alt"></i>
                         </div>
-                        <h3>إدارة المخاطر</h3>
-                        <p>لا تنسَ حساب المصاريف الشهرية للحصول على توقعات واقعية</p>
+                        <h3 data-i18n="tips.riskManagement.title" data-i18n-ns="guide">إدارة المخاطر</h3>
+                        <p data-i18n="tips.riskManagement.description" data-i18n-ns="guide">لا تنسَ حساب المصاريف الشهرية للحصول على توقعات واقعية</p>
                     </div>
 
                     <div class="info-card">
                         <div class="info-icon">
                             <i class="fas fa-chart-line"></i>
                         </div>
-                        <h3>النمو المركب</h3>
-                        <p>إعادة الاستثمار تساعد على تحقيق نمو أسي في رأس المال على المدى الطويل</p>
+                        <h3 data-i18n="tips.compoundGrowth.title" data-i18n-ns="guide">النمو المركب</h3>
+                        <p data-i18n="tips.compoundGrowth.description" data-i18n-ns="guide">إعادة الاستثمار تساعد على تحقيق نمو أسي في رأس المال على المدى الطويل</p>
                     </div>
                 </div>
             </div>
@@ -321,7 +335,7 @@
                     <div class="card-header">
                         <h2>
                             <i class="fas fa-exclamation-triangle"></i>
-                            تقييم نسبة الخطورة
+                            <span data-i18n="risk.title" data-i18n-ns="results">تقييم نسبة الخطورة</span>
                         </h2>
                     </div>
                     <div class="card-body risk-card-body">
@@ -335,11 +349,11 @@
                             </div>
                             <div class="risk-info">
                                 <div class="risk-level">
-                                    <h3>مستوى الخطورة:</h3>
-                                    <p id="riskLevelText" class="risk-level-text">منخفضة جداً</p>
+                                    <h3 data-i18n="risk.level" data-i18n-ns="results">مستوى الخطورة:</h3>
+                                    <p id="riskLevelText" class="risk-level-text" data-i18n="risk.levels.veryLow" data-i18n-ns="results">منخفضة جداً</p>
                                 </div>
                                 <div class="risk-description">
-                                    <p id="riskDescription"></p>
+                                    <p id="riskDescription" data-i18n="risk.descriptions.veryLow" data-i18n-ns="results"></p>
                                 </div>
                             </div>
                         </div>
@@ -353,7 +367,7 @@
                     <div class="card-header">
                         <h2>
                             <i class="fas fa-chart-area"></i>
-                            تطور الرصيد والأرباح
+                            <span data-i18n="charts.balanceAndEarnings" data-i18n-ns="results">تطور الرصيد والأرباح</span>
                         </h2>
                     </div>
                     <div class="card-body">
@@ -364,7 +378,7 @@
                 <div class="grid-2">
                     <div class="card chart-card">
                         <div class="card-header">
-                            <h3>توزيع الأرباح</h3>
+                            <h3 data-i18n="charts.earningsDistribution" data-i18n-ns="results">توزيع الأرباح</h3>
                         </div>
                         <div class="card-body">
                             <canvas id="pieChart"></canvas>
@@ -373,7 +387,7 @@
 
                     <div class="card chart-card">
                         <div class="card-header">
-                            <h3>نسبة العائد الشهري</h3>
+                            <h3 data-i18n="charts.monthlyROI" data-i18n-ns="results">نسبة العائد الشهري</h3>
                         </div>
                         <div class="card-body">
                             <canvas id="roiChart"></canvas>
@@ -387,7 +401,7 @@
                 <div class="card-header">
                     <h2>
                         <i class="fas fa-table"></i>
-                        التفاصيل الشهرية
+                        <span data-i18n="tables.monthlyDetails" data-i18n-ns="results">التفاصيل الشهرية</span>
                     </h2>
                 </div>
                 <div class="card-body">
@@ -395,13 +409,13 @@
                         <table class="data-table" id="dataTable">
                             <thead>
                                 <tr>
-                                    <th>الشهر</th>
-                                    <th>الأرباح</th>
-                                    <th>إعادة الاستثمار</th>
-                                    <th>السحب النقدي</th>
-                                    <th>المصاريف</th>
-                                    <th>الرصيد</th>
-                                    <th>نسبة العائد</th>
+                                    <th data-i18n="tables.headers.month" data-i18n-ns="results">الشهر</th>
+                                    <th data-i18n="tables.headers.earnings" data-i18n-ns="results">الأرباح</th>
+                                    <th data-i18n="tables.headers.reinvest" data-i18n-ns="results">إعادة الاستثمار</th>
+                                    <th data-i18n="tables.headers.cashOut" data-i18n-ns="results">السحب النقدي</th>
+                                    <th data-i18n="tables.headers.expenses" data-i18n-ns="results">المصاريف</th>
+                                    <th data-i18n="tables.headers.balance" data-i18n-ns="results">الرصيد</th>
+                                    <th data-i18n="tables.headers.roi" data-i18n-ns="results">نسبة العائد</th>
                                 </tr>
                             </thead>
                             <tbody id="tableBody"></tbody>
@@ -415,7 +429,7 @@
                 <div class="card-header">
                     <h2>
                         <i class="fas fa-calendar-day"></i>
-                        التفاصيل اليومية (أول 90 يوم)
+                        <span data-i18n="tables.dailyDetails" data-i18n-ns="results">التفاصيل اليومية (أول 90 يوم)</span>
                     </h2>
                 </div>
                 <div class="card-body">
@@ -423,10 +437,10 @@
                         <table class="data-table" id="dailyDataTable">
                             <thead>
                                 <tr>
-                                    <th>اليوم</th>
-                                    <th>الربح اليومي</th>
-                                    <th>السحب النقدي</th>
-                                    <th>الرصيد</th>
+                                    <th data-i18n="tables.headers.day" data-i18n-ns="results">اليوم</th>
+                                    <th data-i18n="tables.headers.dailyProfit" data-i18n-ns="results">الربح اليومي</th>
+                                    <th data-i18n="tables.headers.cashOut" data-i18n-ns="results">السحب النقدي</th>
+                                    <th data-i18n="tables.headers.balance" data-i18n-ns="results">الرصيد</th>
                                 </tr>
                             </thead>
                             <tbody id="dailyTableBody"></tbody>
@@ -442,47 +456,47 @@
                 <div class="card-header">
                     <h2>
                         <i class="fas fa-book-open"></i>
-                        دليل الاستخدام
+                        <span data-i18n="title" data-i18n-ns="guide">دليل الاستخدام</span>
                     </h2>
                 </div>
                 <div class="card-body guide-content">
                     <div class="guide-item">
                         <div class="guide-number">1</div>
                         <div class="guide-text">
-                            <h3>أدخل رأس المال الأساسي</h3>
-                            <p>المبلغ الذي ستبدأ به التداول</p>
+                            <h3 data-i18n="steps.1.title" data-i18n-ns="guide">أدخل رأس المال الأساسي</h3>
+                            <p data-i18n="steps.1.description" data-i18n-ns="guide">المبلغ الذي ستبدأ به التداول</p>
                         </div>
                     </div>
 
                     <div class="guide-item">
                         <div class="guide-number">2</div>
                         <div class="guide-text">
-                            <h3>حدد الربح المتوقع لكل صفقة</h3>
-                            <p>متوسط الربح الذي تتوقعه من كل صفقة تداول</p>
+                            <h3 data-i18n="steps.2.title" data-i18n-ns="guide">حدد الربح المتوقع لكل صفقة</h3>
+                            <p data-i18n="steps.2.description" data-i18n-ns="guide">متوسط الربح الذي تتوقعه من كل صفقة تداول</p>
                         </div>
                     </div>
 
                     <div class="guide-item">
                         <div class="guide-number">3</div>
                         <div class="guide-text">
-                            <h3>اختر عدد الصفقات اليومية</h3>
-                            <p>كم صفقة تنوي تنفيذها يومياً</p>
+                            <h3 data-i18n="steps.3.title" data-i18n-ns="guide">اختر عدد الصفقات اليومية</h3>
+                            <p data-i18n="steps.3.description" data-i18n-ns="guide">كم صفقة تنوي تنفيذها يومياً</p>
                         </div>
                     </div>
 
                     <div class="guide-item">
                         <div class="guide-number">4</div>
                         <div class="guide-text">
-                            <h3>اضبط نسبة إعادة الاستثمار</h3>
-                            <p>النسبة من الأرباح التي ستعيد استثمارها لزيادة رأس المال</p>
+                            <h3 data-i18n="steps.4.title" data-i18n-ns="guide">اضبط نسبة إعادة الاستثمار</h3>
+                            <p data-i18n="steps.4.description" data-i18n-ns="guide">النسبة من الأرباح التي ستعيد استثمارها لزيادة رأس المال</p>
                         </div>
                     </div>
 
                     <div class="guide-item">
                         <div class="guide-number">5</div>
                         <div class="guide-text">
-                            <h3>احسب المصاريف الشهرية</h3>
-                            <p>أي مصاريف ثابتة ستخصم من أرباحك شهرياً</p>
+                            <h3 data-i18n="steps.5.title" data-i18n-ns="guide">احسب المصاريف الشهرية</h3>
+                            <p data-i18n="steps.5.description" data-i18n-ns="guide">أي مصاريف ثابتة ستخصم من أرباحك شهرياً</p>
                         </div>
                     </div>
                 </div>
@@ -493,10 +507,10 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 حاسبة التداول الذكية. جميع الحقوق محفوظة.</p>
+            <p>&copy; 2025 <span data-i18n="app.title" data-i18n-ns="common">حاسبة التداول الذكية</span>. <span data-i18n="footer.copyright" data-i18n-ns="common">جميع الحقوق محفوظة</span>.</p>
             <p class="footer-note">
                 <i class="fas fa-exclamation-triangle"></i>
-                تنبيه: هذه الحسابات تقديرية ولا تضمن تحقيق أرباح فعلية. التداول ينطوي على مخاطر.
+                <span data-i18n="footer.disclaimer" data-i18n-ns="common">تنبيه: هذه الحسابات تقديرية ولا تضمن تحقيق أرباح فعلية. التداول ينطوي على مخاطر.</span>
             </p>
         </div>
     </footer>
