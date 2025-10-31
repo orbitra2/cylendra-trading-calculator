@@ -1,6 +1,7 @@
 {
   "app": {
     "title": "Smart Trading Calculator",
+    "mainTitle": "Smart Trading Calculator by CYLENDRA",
     "subtitle": "Calculate your future profits with professional accuracy",
     "description": "Advanced tool for calculating returns with reinvestment and monthly expenses"
   },

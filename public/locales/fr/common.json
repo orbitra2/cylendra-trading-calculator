@@ -1,6 +1,7 @@
 {
   "app": {
     "title": "Calculateur de Trading Intelligent",
+    "mainTitle": "Calculateur de Trading Intelligent par CYLENDRA",
     "subtitle": "Calculez vos profits futurs avec une précision professionnelle",
     "description": "Outil avancé pour calculer les rendements avec réinvestissement et dépenses mensuelles"
   },

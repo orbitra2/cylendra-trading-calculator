@@ -271,28 +271,85 @@ function updateFormElements() {
   });
 }
 
-// Initialize language selector
-function initLanguageSelector() {
-  const languageSelector = document.getElementById('languageSelector');
-  if (languageSelector) {
-    // Set current language
-    languageSelector.value = currentLanguage;
-    console.log('Language selector initialized with language:', currentLanguage);
-    
-    languageSelector.addEventListener('change', function(e) {
-      const selectedLanguage = e.target.value;
-      console.log('Language changed to:', selectedLanguage);
-      changeLanguage(selectedLanguage).then(() => {
-        updatePageContent();
-        console.log('Page content updated for language:', selectedLanguage);
-      }).catch(error => {
-        console.error('Error changing language:', error);
-      });
-    });
-  } else {
-    console.error('Language selector not found!');
-  }
-}
+        // Initialize language selector
+        function initLanguageSelector() {
+          const languageSelector = document.getElementById('languageSelector');
+          if (languageSelector) {
+            // Set current language
+            languageSelector.value = currentLanguage;
+            console.log('Language selector initialized with language:', currentLanguage);
+
+            // Force visibility and colors for language selector - optimized version
+            let isApplyingStyles = false; // Flag to prevent infinite loops
+            
+            const applyStyles = () => {
+              // Prevent infinite loops
+              if (isApplyingStyles) return;
+              isApplyingStyles = true;
+              
+              try {
+                // Use gradient background for better visibility
+                languageSelector.style.background = 'linear-gradient(135deg, #32AA8C 0%, #2a8f76 100%)';
+                languageSelector.style.backgroundColor = '#32AA8C'; // Fallback
+                languageSelector.style.color = 'white';
+                languageSelector.style.webkitTextFillColor = 'white';
+                languageSelector.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                languageSelector.style.opacity = '1';
+                languageSelector.style.visibility = 'visible';
+              } finally {
+                isApplyingStyles = false;
+              }
+            };
+            
+            // Apply initial styles once
+            applyStyles();
+            
+            // Reapply styles on specific events only (not on every mutation)
+            languageSelector.addEventListener('focus', applyStyles);
+            languageSelector.addEventListener('blur', applyStyles);
+
+            languageSelector.addEventListener('change', function(e) {
+              const selectedLanguage = e.target.value;
+              console.log('Language changed to:', selectedLanguage);
+              applyStyles(); // Ensure styles persist after change
+              changeLanguage(selectedLanguage).then(() => {
+                updatePageContent();
+                console.log('Page content updated for language:', selectedLanguage);
+              }).catch(error => {
+                console.error('Error changing language:', error);
+              });
+            });
+            
+            // Use MutationObserver only to detect external style changes, not our own
+            let lastStyle = languageSelector.getAttribute('style') || '';
+            const observer = new MutationObserver((mutations) => {
+              // Only apply if style changed externally (not by our code)
+              const currentStyle = languageSelector.getAttribute('style') || '';
+              if (currentStyle !== lastStyle && !isApplyingStyles) {
+                const computedColor = window.getComputedStyle(languageSelector).color;
+                // Only reapply if color is not white (someone changed it externally)
+                if (computedColor !== 'rgb(255, 255, 255)' && computedColor !== '#ffffff') {
+                  setTimeout(applyStyles, 100); // Small delay to avoid loops
+                }
+                lastStyle = currentStyle;
+              }
+            });
+            
+            observer.observe(languageSelector, {
+              attributes: true,
+              attributeFilter: ['style']
+            });
+            
+            // Apply styles once when DOM is fully ready (not repeatedly)
+            if (document.readyState === 'loading') {
+              document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(applyStyles, 100);
+              });
+            }
+          } else {
+            console.error('Language selector not found!');
+          }
+        }
 
 // Language change event handler
 window.onLanguageChanged = function(lang) {
