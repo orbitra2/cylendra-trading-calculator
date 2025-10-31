@@ -126,7 +126,7 @@ if (tradesPerDayInput) {
 
 // تفعيل روابط التنقل عند التمرير
 const sections = document.querySelectorAll('.section');
-const navLinks = document.querySelectorAll('.nav-link');
+const navLinkItems = document.querySelectorAll('.nav-link');
 
 window.addEventListener('scroll', () => {
     let current = '';
@@ -139,7 +139,7 @@ window.addEventListener('scroll', () => {
         }
     });
 
-    navLinks.forEach(link => {
+    navLinkItems.forEach(link => {
         link.classList.remove('active');
         if (link.getAttribute('href') === `#${current}`) {
             link.classList.add('active');
@@ -719,5 +719,77 @@ inputs.forEach(input => {
 
 // تحميل الإعدادات عند بدء التشغيل
 // loadSettings(); // معطل افتراضياً لعدم التداخل مع القيم الافتراضية
+
+// Mobile Menu Toggle
+const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+const mobileMenuClose = document.getElementById('mobileMenuClose');
+const navLinks = document.getElementById('navLinks');
+const body = document.body;
+
+function closeMobileMenu() {
+    if (mobileMenuToggle && navLinks) {
+        mobileMenuToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+        body.style.overflow = '';
+    }
+}
+
+function openMobileMenu() {
+    if (mobileMenuToggle && navLinks) {
+        mobileMenuToggle.classList.add('active');
+        navLinks.classList.add('active');
+        body.style.overflow = 'hidden';
+    }
+}
+
+if (mobileMenuToggle && navLinks) {
+    mobileMenuToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (navLinks.classList.contains('active')) {
+            closeMobileMenu();
+        } else {
+            openMobileMenu();
+        }
+    });
+
+    // Close button in menu
+    if (mobileMenuClose) {
+        mobileMenuClose.addEventListener('click', function(e) {
+            e.stopPropagation();
+            closeMobileMenu();
+        });
+    }
+
+    // Close menu when clicking on a link
+    const mobileNavLinkItems = navLinks.querySelectorAll('.nav-link');
+    mobileNavLinkItems.forEach(link => {
+        link.addEventListener('click', function() {
+            closeMobileMenu();
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (navLinks.classList.contains('active') && 
+            !navLinks.contains(e.target) && 
+            !mobileMenuToggle.contains(e.target)) {
+            closeMobileMenu();
+        }
+    });
+
+    // Close menu on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+            closeMobileMenu();
+        }
+    });
+
+    // Handle window resize - close menu if window becomes larger than 768px
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
+            closeMobileMenu();
+        }
+    });
+}
 
 console.log('✅ Trading Calculator loaded successfully!');
