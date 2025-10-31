@@ -724,13 +724,25 @@ inputs.forEach(input => {
 const mobileMenuToggle = document.getElementById('mobileMenuToggle');
 const mobileMenuClose = document.getElementById('mobileMenuClose');
 const navLinks = document.getElementById('navLinks');
+const menuOverlay = document.getElementById('menuOverlay');
 const body = document.body;
 
 function closeMobileMenu() {
     if (mobileMenuToggle && navLinks) {
         mobileMenuToggle.classList.remove('active');
         navLinks.classList.remove('active');
+        if (menuOverlay) {
+            menuOverlay.classList.remove('active');
+        }
         body.style.overflow = '';
+        body.style.position = '';
+        // Force transform reset for Android
+        setTimeout(() => {
+            navLinks.style.transform = '';
+            navLinks.style.webkitTransform = '';
+            navLinks.style.mozTransform = '';
+            navLinks.style.msTransform = '';
+        }, 350);
     }
 }
 
@@ -738,7 +750,15 @@ function openMobileMenu() {
     if (mobileMenuToggle && navLinks) {
         mobileMenuToggle.classList.add('active');
         navLinks.classList.add('active');
+        if (menuOverlay) {
+            menuOverlay.classList.add('active');
+        }
         body.style.overflow = 'hidden';
+        // Force reflow for Android
+        navLinks.offsetHeight;
+        // Force transform for Android
+        navLinks.style.transform = 'translateX(0)';
+        navLinks.style.webkitTransform = 'translateX(0)';
     }
 }
 
@@ -768,11 +788,20 @@ if (mobileMenuToggle && navLinks) {
         });
     });
 
+    // Close menu when clicking on overlay
+    if (menuOverlay) {
+        menuOverlay.addEventListener('click', function(e) {
+            e.stopPropagation();
+            closeMobileMenu();
+        });
+    }
+
     // Close menu when clicking outside
     document.addEventListener('click', function(e) {
         if (navLinks.classList.contains('active') && 
             !navLinks.contains(e.target) && 
-            !mobileMenuToggle.contains(e.target)) {
+            !mobileMenuToggle.contains(e.target) &&
+            (!menuOverlay || !menuOverlay.contains(e.target))) {
             closeMobileMenu();
         }
     });
