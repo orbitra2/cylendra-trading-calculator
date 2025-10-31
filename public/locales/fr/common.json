@@ -5,6 +5,9 @@
     "subtitle": "Calculez vos profits futurs avec une précision professionnelle",
     "description": "Outil avancé pour calculer les rendements avec réinvestissement et dépenses mensuelles"
   },
+  "menu": {
+    "title": "Menu"
+  },
   "navigation": {
     "calculator": "Calculateur",
     "results": "Résultats",

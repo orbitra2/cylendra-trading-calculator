@@ -5,6 +5,9 @@
     "subtitle": "Gelecekteki kârlarınızı profesyonel doğrulukla hesaplayın",
     "description": "Yeniden yatırım ve aylık giderlerle getiri hesaplama için gelişmiş araç"
   },
+  "menu": {
+    "title": "Menü"
+  },
   "navigation": {
     "calculator": "Hesaplayıcı",
     "results": "Sonuçlar",

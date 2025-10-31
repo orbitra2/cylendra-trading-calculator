@@ -5,6 +5,9 @@
     "subtitle": "Calculate your future profits with professional accuracy",
     "description": "Advanced tool for calculating returns with reinvestment and monthly expenses"
   },
+  "menu": {
+    "title": "Menu"
+  },
   "navigation": {
     "calculator": "Calculator",
     "results": "Results",
