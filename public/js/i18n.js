@@ -169,9 +169,37 @@ function getTranslation(namespace, key, options = {}) {
 
 // Update page direction based on current language
 function updatePageDirection() {
-  document.documentElement.dir = rtlLanguages.includes(currentLanguage) ? 'rtl' : 'ltr';
+  const dir = rtlLanguages.includes(currentLanguage) ? 'rtl' : 'ltr';
+  document.documentElement.dir = dir;
   document.documentElement.lang = currentLanguage;
+  
+  // Update menu direction
+  const navLinks = document.getElementById('navLinks');
+  if (navLinks) {
+    navLinks.dir = dir;
+  }
+  
+  // Update menu header direction
+  const navLinksHeader = document.querySelector('.nav-links-header');
+  if (navLinksHeader) {
+    navLinksHeader.dir = dir;
+  }
+  
+  // Update nav links direction
+  const navLinkElements = document.querySelectorAll('.nav-link');
+  navLinkElements.forEach(link => {
+    link.dir = dir;
+  });
+  
+  // Update language selector direction
+  const languageSelector = document.getElementById('languageSelector');
+  if (languageSelector) {
+    languageSelector.dir = dir;
+  }
 }
+
+// Make updatePageDirection available globally
+window.updatePageDirection = updatePageDirection;
 
 // Helper function to change language
 function changeLanguage(language) {

@@ -740,6 +740,10 @@ function openMobileMenu() {
         mobileMenuToggle.classList.add('active');
         navLinks.classList.add('active');
         body.style.overflow = 'hidden';
+        // Ensure menu direction is correct
+        if (typeof updatePageDirection === 'function') {
+            updatePageDirection();
+        }
     }
 }
 
